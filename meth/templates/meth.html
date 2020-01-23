@@ -4,17 +4,44 @@
 
 <head>
     <link rel="stylesheet" href="https://use.typekit.net/clf0cum.css">
-    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+            // Add a click event on each of them
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+
+                    // Get the target from the "data-target" attribute
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+
+                });
+            });
+        }
+
+    });
+
+</script>
 
 <style global>
     @font-face {
         font-family: Inter;
         src: url("{% static 'Inter-V.otf' %}");
-    }
-
-    body {
-        margin: 0;
     }
 
     #top-header {
@@ -26,20 +53,74 @@
         font-family: bungee, sans-serif;
         font-weight: 800;
         font-style: normal;
-        font-size: 3rem;
-        margin: 0;
+        font-size: 2rem;
+        color: black;
+    }
+
+    .navbar-ext {
+        padding-left: 15vw;
+        padding-right: 15vw;
+    }
+
+    @media only screen and (max-width: 1024px) {
+        .navbar-ext {
+            padding: 0;
+        }
+    }
+
+    .navbar-brand-ext {
+        align-items: center;
     }
 </style>
 
-<body class="ms-Fabric" dir="ltr">
-    <header id="top-header">
-        <div>
-            <h2 id='header-title'>
+<body>
+    <nav class="navbar is-light navbar-ext" role="navigation" aria-label="dropdown navigation">
+        <div class="navbar-brand navbar-brand-ext">
+            <a id='header-title' class='navbar-item' href='/meth/'>
                 Meth 💊
-            </h2>
+            </a>
+
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                data-target="navbar-options">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-    </header>
-    <span class="ms-font-su ms-fontColor-themePrimary">Big blue text</span>
+
+        <div id="navbar-options" class='navbar-menu'>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        E-Math
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item is-right">
+                            Indices
+                        </a>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        A-Math
+                    </a>
+
+                    <div class="navbar-dropdown is-right">
+                        <a class="navbar-item">
+                            Logarithm
+                        </a>
+                        <a class="navbar-item">
+                            Differentiation
+                        </a>
+                        <a class="navbar-item">
+                            Integration
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 </body>
 
 </html>
