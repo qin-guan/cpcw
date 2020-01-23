@@ -1,22 +1,45 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-    <style global>
-        body {
-            margin: 0;
-        }
 
-        #top-header {
-            padding-left: 25px;
-            padding-right: 25px;
-        }
-    </style>
-    <body>
-        <header id="top-header">
-            <div>
-                <h2>
-                    Meth
-                </h2>
-            </div>
-        </header>
-    </body>
+<head>
+    <link rel="stylesheet" href="https://use.typekit.net/clf0cum.css">
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
+</head>
+
+<style global>
+    @font-face {
+        font-family: Inter;
+        src: url("{% static 'Inter-V.otf' %}");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    #top-header {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    #header-title {
+        font-family: bungee, sans-serif;
+        font-weight: 800;
+        font-style: normal;
+        font-size: 3rem;
+        margin: 0;
+    }
+</style>
+
+<body class="ms-Fabric" dir="ltr">
+    <header id="top-header">
+        <div>
+            <h2 id='header-title'>
+                Meth 💊
+            </h2>
+        </div>
+    </header>
+    <span class="ms-font-su ms-fontColor-themePrimary">Big blue text</span>
+</body>
+
 </html>
