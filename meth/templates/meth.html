@@ -96,9 +96,11 @@
                     </a>
 
                     <div class="navbar-dropdown">
+                        {% for i in topics.em %}
                         <a class="navbar-item is-right">
-                            Indices
+                            {{i}}
                         </a>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="navbar-item has-dropdown is-hoverable">
