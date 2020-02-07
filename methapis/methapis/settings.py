@@ -25,7 +25,7 @@ SECRET_KEY = '@krmu9mhbf&-qb+(towh!3fto8+6grxm888w$xb)6o2@o66)-8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kib.outsideapp.co']
+ALLOWED_HOSTS = ['kib.outsideapp.co', 'localhost']
 
 
 # Application definition
@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'calculator',
     'corsheaders',
-    'rest_framework'
+    'rest_framework',
+    'health_check',
+    'health_check.db'
 ]
 
 MIDDLEWARE = [

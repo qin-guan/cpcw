@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 def validate_difficulty(value):
-    if value != "a" or value != "e":
+    if value != "a" and value != "e":
         raise ValidationError(
             _('%(value)s is not a or e'),
             params={'value': value},
@@ -19,5 +19,6 @@ def validate_empty(value):
         )
 
 class Calculator(models.Model):
-    equation = models.TextField()
+    formula = models.TextField(validators=[validate_empty])
     difficulty = models.TextField(validators=[validate_difficulty])
+    topic = models.TextField(validators=[validate_empty])
