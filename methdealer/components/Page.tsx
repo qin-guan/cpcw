@@ -33,7 +33,7 @@ const Fade16 = () => (
   </svg>
 );
 
-export function Page(props: { children?: React.ReactNode, topics?: GTTopics, difficulty: "a" | "e"; health: boolean }) {
+export function Page(props: { children?: React.ReactNode, topics?: GTTopics, difficulty: "a" | "e"; health: boolean; currentlySelected: string }) {
   if (!props.health) {
     return null
   }
@@ -86,7 +86,7 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
                       <SideNavMenu renderIcon={Fade16} title={topic}>
                         {props.topics[topic].map((eqns) => {
                           return (
-                            <SideNavMenuItem href={"/" + props.difficulty + "/" + eqns.id}>
+                            <SideNavMenuItem isActive={eqns.id.toString() === props.currentlySelected} href={"/" + props.difficulty + "/" + eqns.id}>
                               {eqns.title}
                             </SideNavMenuItem>
                           )

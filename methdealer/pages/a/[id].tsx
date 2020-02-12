@@ -3,11 +3,14 @@ import { Page } from '../../components/Page';
 import Router from 'next/router'
 import { Calculator } from '../../functions/calculator';
 import { Equation, GTTopics } from '../../types/calculator';
+import { InlineMath, BlockMath } from 'react-katex';
+import {withRouter, SingletonRouter} from 'next/router'
 
 interface AMathEquationPageProps {
   topics: GTTopics;
   health: boolean;
-  equation: Equation
+  equation: Equation;
+  router: SingletonRouter
 }
 
 class AMathEquationPage extends React.Component<AMathEquationPageProps> {
@@ -26,14 +29,15 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps> {
 
   render() {
     return (
-      <Page topics={this.props.topics} difficulty="a" health={this.props.health}>
+      <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="a" health={this.props.health}>
         <div style={{ display: 'flex', padding: 48, flexDirection: 'column' }}>
-          <h1>{this.props.equation.title}</h1>
-          <h6>{this.props.equation.topic}</h6>
+          <h1 style={{fontWeight: 'bold'}}>{this.props.equation.title}</h1>
+          <h5>{this.props.equation.topic}</h5>
+          <BlockMath math={"\\huge" + this.props.equation.formula}></BlockMath>
         </div>
       </Page>
     )
   }
 }
 
-export default AMathEquationPage
+export default withRouter(AMathEquationPage)
