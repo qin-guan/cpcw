@@ -17,8 +17,10 @@ import {
   SideNavLink,
   SideNavMenu,
   SideNavMenuItem,
+  Content
 } from 'carbon-components-react'
 import { GTTopics } from '../types/calculator';
+import cx from 'classnames'
 
 const Fade16 = () => (
   <svg
@@ -35,6 +37,7 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
   if (!props.health) {
     return null
   }
+
   return (
     <div style={{ width: '100vw', height: '100vh', display: 'flex' }}>
       <HeaderContainer
@@ -51,8 +54,8 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
                 Dealer
               </HeaderName>
               <HeaderNavigation aria-label="Meth Dealer">
-                <HeaderMenuItem href="a">A-Math</HeaderMenuItem>
-                <HeaderMenuItem href="e">E-Math</HeaderMenuItem>
+                <HeaderMenuItem href="/a">A-Math</HeaderMenuItem>
+                <HeaderMenuItem href="/e">E-Math</HeaderMenuItem>
               </HeaderNavigation>
               <HeaderGlobalBar>
                 <HeaderGlobalAction
@@ -71,10 +74,10 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
                 expanded={isSideNavExpanded}>
                 <SideNavItems>
                   <HeaderSideNavItems hasDivider={true}>
-                    <HeaderMenuItem linkRole="link" href="a">
+                    <HeaderMenuItem linkRole="link" href="/a">
                       A-Math
                     </HeaderMenuItem>
-                    <HeaderMenuItem linkRole="link" href="e">
+                    <HeaderMenuItem linkRole="link" href="/e">
                       E-Math
                     </HeaderMenuItem>
                   </HeaderSideNavItems>
@@ -97,7 +100,11 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
           </>
         )}
       />
-      <div style={{ flex: 1, marginTop: 48 }}>
+      <div className={'bx--offset-lg-3'} style={{
+        display: 'flex',
+        flex: 1,
+        marginTop: 48
+      }}>
         {props.children}
       </div>
     </div>

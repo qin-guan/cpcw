@@ -4,19 +4,19 @@ import { Calculator } from '../../functions/calculator';
 import { GTTopics } from '../../types/calculator';
 import { DataTable, TableContainer, Table, TableHead, TableRow, TableHeader, TableBody, TableCell } from 'carbon-components-react'
 
-interface EMathPageState {
+interface AMathPageState {
 }
 
-interface EMathPageProps {
+interface AMathPageProps {
   topics: GTTopics;
   health: boolean
 }
 
-class EMathPage extends React.Component<EMathPageProps, EMathPageState> {
+class AMathPage extends React.Component<AMathPageProps, AMathPageState> {
 
   static getInitialProps(): Promise<{ topics: GTTopics; health: boolean }> {
     return new Promise<{ topics: GTTopics; health: boolean }>((resolve) => {
-      Calculator.initialize("e").then((d) => resolve(d)).catch((e) => console.log(e))
+      Calculator.initialize("a").then((d) => resolve(d)).catch((e) => console.log(e))
     })
   }
 
@@ -28,7 +28,7 @@ class EMathPage extends React.Component<EMathPageProps, EMathPageState> {
       })
     })
     return (
-      <Page topics={this.props.topics} difficulty="e" health={this.props.health}>
+      <Page topics={this.props.topics} difficulty="a" health={this.props.health}>
         <div style={{ flex: 1, padding: 50 }}>
           <DataTable
             rows={rows}
@@ -47,7 +47,7 @@ class EMathPage extends React.Component<EMathPageProps, EMathPageState> {
               }
             ]}
             render={({ rows, headers, getHeaderProps }) => (
-              <TableContainer title="E-Math">
+              <TableContainer title="A-Math">
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -77,4 +77,4 @@ class EMathPage extends React.Component<EMathPageProps, EMathPageState> {
   }
 }
 
-export default EMathPage
+export default AMathPage
