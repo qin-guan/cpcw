@@ -18,6 +18,7 @@ import {
   SideNavMenu,
   SideNavMenuItem,
 } from 'carbon-components-react'
+import { GTTopics } from '../types/calculator';
 
 const Fade16 = () => (
   <svg
@@ -30,9 +31,13 @@ const Fade16 = () => (
   </svg>
 );
 
-export function Page(props: {children?: React.ReactNode}) {
-    return (
-        <HeaderContainer
+export function Page(props: { children?: React.ReactNode, topics?: GTTopics, difficulty: "a" | "e"; health: boolean }) {
+  if (!props.health) {
+    return null
+  }
+  return (
+    <div style={{ width: '100vw', height: '100vh', display: 'flex' }}>
+      <HeaderContainer
         render={({ isSideNavExpanded, onClickSideNavExpand }) => (
           <>
             <Header aria-label="Meth Dealer">
@@ -46,8 +51,8 @@ export function Page(props: {children?: React.ReactNode}) {
                 Dealer
               </HeaderName>
               <HeaderNavigation aria-label="Meth Dealer">
-                <HeaderMenuItem href="#">A-Math</HeaderMenuItem>
-                <HeaderMenuItem href="#">E-Math</HeaderMenuItem>
+                <HeaderMenuItem href="a">A-Math</HeaderMenuItem>
+                <HeaderMenuItem href="e">E-Math</HeaderMenuItem>
               </HeaderNavigation>
               <HeaderGlobalBar>
                 <HeaderGlobalAction
@@ -66,62 +71,35 @@ export function Page(props: {children?: React.ReactNode}) {
                 expanded={isSideNavExpanded}>
                 <SideNavItems>
                   <HeaderSideNavItems hasDivider={true}>
-                    <HeaderMenuItem linkRole="link" href="#">
+                    <HeaderMenuItem linkRole="link" href="a">
                       A-Math
                     </HeaderMenuItem>
-                    <HeaderMenuItem linkRole="link" href="#">
+                    <HeaderMenuItem linkRole="link" href="e">
                       E-Math
                     </HeaderMenuItem>
                   </HeaderSideNavItems>
-                  <SideNavMenu renderIcon={Fade16} title="">
-                    <SideNavMenuItem href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                    <SideNavMenuItem href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                    <SideNavMenuItem href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                  </SideNavMenu>
-                  <SideNavMenu renderIcon={Fade16} title="Category title">
-                    <SideNavMenuItem href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                    <SideNavMenuItem href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                    <SideNavMenuItem href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                  </SideNavMenu>
-                  <SideNavMenu
-                    renderIcon={Fade16}
-                    title="Category title"
-                    isActive={true}>
-                    <SideNavMenuItem href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                    <SideNavMenuItem
-                      aria-current="page"
-                      href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                    <SideNavMenuItem href="javascript:void(0)">
-                      Link
-                    </SideNavMenuItem>
-                  </SideNavMenu>
-                  <SideNavLink renderIcon={Fade16} href="javascript:void(0)">
-                    Link
-                  </SideNavLink>
-                  <SideNavLink renderIcon={Fade16} href="javascript:void(0)">
-                    Link
-                  </SideNavLink>
+                  {Object.keys(props.topics).map((topic) => {
+                    return (
+                      <SideNavMenu renderIcon={Fade16} title={topic}>
+                        {props.topics[topic].map((eqns) => {
+                          return (
+                            <SideNavMenuItem href={"/" + props.difficulty + "/" + eqns.id}>
+                              {eqns.title}
+                            </SideNavMenuItem>
+                          )
+                        })}
+                      </SideNavMenu>
+                    )
+                  })}
                 </SideNavItems>
               </SideNav>
             </Header>
           </>
         )}
       />
-    )
+      <div style={{ flex: 1, marginTop: 48 }}>
+        {props.children}
+      </div>
+    </div>
+  )
 }

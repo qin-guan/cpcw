@@ -22,3 +22,4 @@ class Calculator(models.Model):
     formula = models.TextField(validators=[validate_empty])
     difficulty = models.TextField(validators=[validate_difficulty])
     topic = models.TextField(validators=[validate_empty])
+    title = models.TextField(validators=[validate_empty])

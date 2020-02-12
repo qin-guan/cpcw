@@ -17,4 +17,10 @@ class CalculatorView(viewsets.ModelViewSet):
         if ("difficulty" not in request.query_params.keys() or ("a" not in request.query_params['difficulty'] and "e" not in request.query_params['difficulty'])):
             return Response({"error": True})
         diff = request.query_params['difficulty']
-        return Response([i['topic'] for i in Calculator.objects.filter(difficulty=diff).values("topic")])
+        res = {}
+        for i in Calculator.objects.filter(difficulty=diff).values("topic", "id", "title"):
+            topic = i['topic']
+            if topic not in res:
+                res[topic] = []
+            res[topic].append({"id": i["id"], "title": i['title']})
+        return Response(res)
