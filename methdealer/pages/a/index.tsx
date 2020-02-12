@@ -3,13 +3,15 @@ import { Page } from '../../components/Page'
 import { Calculator } from '../../functions/calculator';
 import { GTTopics } from '../../types/calculator';
 import { DataTable, TableContainer, Table, TableHead, TableRow, TableHeader, TableBody, TableCell } from 'carbon-components-react'
+import {withRouter, SingletonRouter} from 'next/router'
 
 interface AMathPageState {
 }
 
 interface AMathPageProps {
   topics: GTTopics;
-  health: boolean
+  health: boolean;
+  router: SingletonRouter
 }
 
 class AMathPage extends React.Component<AMathPageProps, AMathPageState> {
@@ -28,7 +30,7 @@ class AMathPage extends React.Component<AMathPageProps, AMathPageState> {
       })
     })
     return (
-      <Page topics={this.props.topics} difficulty="a" health={this.props.health}>
+      <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="a" health={this.props.health}>
         <div style={{ flex: 1, padding: 50 }}>
           <DataTable
             rows={rows}
@@ -77,4 +79,4 @@ class AMathPage extends React.Component<AMathPageProps, AMathPageState> {
   }
 }
 
-export default AMathPage
+export default withRouter(AMathPage)

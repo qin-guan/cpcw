@@ -25,7 +25,7 @@ SECRET_KEY = '@krmu9mhbf&-qb+(towh!3fto8+6grxm888w$xb)6o2@o66)-8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kib.outsideapp.co', 'localhost']
+ALLOWED_HOSTS = ['methapis.qinguan.tk', 'localhost', 'methdealer.qinguan.tk', '127.0.0.1']
 
 
 # Application definition
