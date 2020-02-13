@@ -62,7 +62,7 @@ class EMathPage extends React.Component<EMathPageProps, EMathPageState> {
                   </TableHead>
                   <TableBody>
                     {rows.map(row => (
-                      <TableRow key={row.id}>
+                      <TableRow onPress={() => alert("N")} key={row.id}>
                         {row.cells.map(cell => (
                           <TableCell key={cell.id}>{cell.value}</TableCell>
                         ))}

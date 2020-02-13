@@ -5,6 +5,8 @@ import { Calculator } from '../../functions/calculator';
 import { Equation, GTTopics } from '../../types/calculator';
 import { InlineMath, BlockMath } from 'react-katex';
 import {withRouter, SingletonRouter} from 'next/router'
+import { EquationHeader } from '../../components/EquationHeader';
+import { Loading } from 'carbon-components-react'
 
 
 interface EMathEquationPageProps {
@@ -14,7 +16,16 @@ interface EMathEquationPageProps {
   equation: Equation
 }
 
-class EMathEquationPage extends React.Component<EMathEquationPageProps> {
+interface EMathEquationPageState {
+  width: number;
+  height: number
+}
+
+class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEquationPageState> {
+  state = {
+    width: 0,
+    height: 0
+  }
 
   static getInitialProps({ query }) {
     return new Promise<{ equation: Equation; topics: GTTopics; health: boolean }>((resolve) => {
@@ -25,17 +36,23 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps> {
   }
 
   componentDidMount() {
-    console.log(this.props)
+    this.setState({width: window.innerWidth, height: window.innerHeight})
+    window.addEventListener("resize", () => this.setState({width: window.innerWidth, height: window.innerHeight}))
+    if (this.props.equation.difficulty === "a") {
+      window.location.href = "/a/" + this.props.router.query.id
+      return
+    }
   }
 
   render() {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="e" health={this.props.health}>
-        <div style={{ display: 'flex', padding: 48, flexDirection: 'column' }}>
-          <h1>{this.props.equation.title}</h1>
-          <h6>{this.props.equation.topic}</h6>
-          <BlockMath math='\int_0^\infty x^2 dx'></BlockMath>
-        </div>
+        {this.props.equation.difficulty === 'a' ? <Loading /> : (
+          <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
+            <EquationHeader formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width}/>
+            <div style={{ flex: 1 }}></div>
+          </div>
+        )}
       </Page>
     )
   }

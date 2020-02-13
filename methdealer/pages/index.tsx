@@ -1,13 +1,13 @@
 import React from 'react';
-import Router from 'next/router'
+import Router, {withRouter, SingletonRouter} from 'next/router'
 
-class IndexPage extends React.Component {
+class IndexPage extends React.Component<{router: SingletonRouter}> {
     componentDidMount() {
-        Router.push("/e")
+        window.location.href = "/e"
     }
     render() {
         return null
     }
 }
 
-export default IndexPage
+export default withRouter(IndexPage)

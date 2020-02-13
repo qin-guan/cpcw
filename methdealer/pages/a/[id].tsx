@@ -3,8 +3,9 @@ import { Page } from '../../components/Page';
 import Router from 'next/router'
 import { Calculator } from '../../functions/calculator';
 import { Equation, GTTopics } from '../../types/calculator';
-import { InlineMath, BlockMath } from 'react-katex';
-import {withRouter, SingletonRouter} from 'next/router'
+import { withRouter, SingletonRouter } from 'next/router'
+import { EquationHeader } from '../../components/EquationHeader';
+import { Loading } from 'carbon-components-react'
 
 interface AMathEquationPageProps {
   topics: GTTopics;
@@ -13,7 +14,16 @@ interface AMathEquationPageProps {
   router: SingletonRouter
 }
 
-class AMathEquationPage extends React.Component<AMathEquationPageProps> {
+interface AMathEquationPageState {
+  width: number;
+  height: number;
+}
+
+class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEquationPageState> {
+  state = {
+    height: 0,
+    width: 0
+  }
 
   static getInitialProps({ query }) {
     return new Promise<{ equation: Equation; topics: GTTopics; health: boolean }>((resolve) => {
@@ -24,17 +34,23 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps> {
   }
 
   componentDidMount() {
-    console.log(this.props)
+    this.setState({width: window.innerWidth, height: window.innerHeight})
+    window.addEventListener("resize", () => this.setState({width: window.innerWidth, height: window.innerHeight}))
+    if (this.props.equation.difficulty === "e") {
+      window.location.href = "/e/" + this.props.router.query.id
+      return
+    }
   }
 
   render() {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="a" health={this.props.health}>
-        <div style={{ display: 'flex', padding: 48, flexDirection: 'column' }}>
-          <h1 style={{fontWeight: 'bold'}}>{this.props.equation.title}</h1>
-          <h5>{this.props.equation.topic}</h5>
-          <BlockMath math={"\\huge" + this.props.equation.formula}></BlockMath>
-        </div>
+        {this.props.equation.difficulty === 'e' ? <Loading /> : (
+          <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
+            <EquationHeader formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width}/>
+            <div style={{ flex: 1 }}></div>
+          </div>
+        )}
       </Page>
     )
   }

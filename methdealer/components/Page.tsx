@@ -50,7 +50,7 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
                 onClick={onClickSideNavExpand}
                 isActive={isSideNavExpanded}
               />
-              <HeaderName href="#" prefix="Meth">
+              <HeaderName href="/" prefix="Meth">
                 Dealer
               </HeaderName>
               <HeaderNavigation aria-label="Meth Dealer">
