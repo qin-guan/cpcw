@@ -6,8 +6,7 @@ import { Equation, GTTopics } from '../../types/calculator';
 import { InlineMath, BlockMath } from 'react-katex';
 import {withRouter, SingletonRouter} from 'next/router'
 import { EquationHeader } from '../../components/EquationHeader';
-import { Loading } from 'carbon-components-react'
-
+import { Loading, Modal } from 'carbon-components-react'
 
 interface EMathEquationPageProps {
   topics: GTTopics;
@@ -18,13 +17,15 @@ interface EMathEquationPageProps {
 
 interface EMathEquationPageState {
   width: number;
-  height: number
+  height: number;
+  modal: boolean;
 }
 
 class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEquationPageState> {
   state = {
     width: 0,
-    height: 0
+    height: 0,
+    modal: false
   }
 
   static getInitialProps({ query }) {
@@ -44,12 +45,21 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
     }
   }
 
+  _toggleModal() {
+    this.setState({modal: !this.state.modal})
+  }
+
   render() {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="e" health={this.props.health}>
+        <Modal passiveModal={true} open={this.state.modal} onRequestClose={() => this._toggleModal()} primaryButton={false} modalHeading={"Equation Legend"}>
+          <span style={{
+            whiteSpace: 'pre-wrap'
+          }}>{this.props.equation.legend}</span>
+        </Modal>
         {this.props.equation.difficulty === 'a' ? <Loading /> : (
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            <EquationHeader formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width}/>
+            <EquationHeader toggleModal={() => this._toggleModal()} legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width}/>
             <div style={{ flex: 1 }}></div>
           </div>
         )}

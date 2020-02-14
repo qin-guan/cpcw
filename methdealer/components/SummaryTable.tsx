@@ -3,7 +3,8 @@ import { DataTable, TableContainer, Table, TableHead, TableRow, TableHeader, Tab
 
 export function SummaryTable(props: {
     rows: { id: string, title: string, topic: string }[],
-    tableTitle: string
+    tableTitle: string,
+    onClick(id: string): void
 }) {
     return (
         <DataTable
@@ -32,7 +33,7 @@ export function SummaryTable(props: {
                   </TableHead>
                   <TableBody>
                     {rows.map(row => (
-                      <TableRow key={row.id}>
+                      <TableRow onClick={() => props.onClick(row.id)} key={row.id}>
                         {row.cells.map(cell => (
                           <TableCell key={cell.id}>{cell.value}</TableCell>
                         ))}

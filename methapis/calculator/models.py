@@ -23,3 +23,5 @@ class Calculator(models.Model):
     difficulty = models.TextField(validators=[validate_difficulty])
     topic = models.TextField(validators=[validate_empty])
     title = models.TextField(validators=[validate_empty])
+    description = models.TextField(validators=[validate_empty])
+    legend = models.TextField()

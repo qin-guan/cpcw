@@ -2,7 +2,7 @@ import React from 'react';
 import { Page } from '../../components/Page'
 import { Calculator } from '../../functions/calculator';
 import { GTTopics } from '../../types/calculator';
-import { withRouter, SingletonRouter } from 'next/router'
+import Router, { withRouter, SingletonRouter } from 'next/router'
 import { SummaryTable } from '../../components/SummaryTable'
 
 interface AMathPageState {
@@ -32,7 +32,7 @@ class AMathPage extends React.Component<AMathPageProps, AMathPageState> {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="a" health={this.props.health}>
         <div style={{ flex: 1, padding: 50 }}>
-          <SummaryTable rows={rows} tableTitle={"Additional Math"} />
+          <SummaryTable rows={rows} tableTitle={"Additional Math"} onClick={id => Router.push("/e/" + id)}/>
         </div>
       </Page>
     )

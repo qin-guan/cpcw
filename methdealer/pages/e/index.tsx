@@ -2,7 +2,7 @@ import React from 'react';
 import { Page } from '../../components/Page'
 import { Calculator } from '../../functions/calculator';
 import { GTTopics } from '../../types/calculator';
-import {withRouter, SingletonRouter} from 'next/router'
+import Router, {withRouter, SingletonRouter} from 'next/router'
 import { SummaryTable } from '../../components/SummaryTable';
 
 interface EMathPageState {
@@ -32,7 +32,7 @@ class EMathPage extends React.Component<EMathPageProps, EMathPageState> {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="e" health={this.props.health}>
         <div style={{ flex: 1, padding: 50 }}>
-          <SummaryTable rows={rows} tableTitle={"Elementary Mathematics"}/>
+          <SummaryTable rows={rows} tableTitle={"Elementary Mathematics"} onClick={id => Router.push("/e/" + id)}/>
         </div>
       </Page>
     )

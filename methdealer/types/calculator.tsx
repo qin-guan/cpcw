@@ -13,6 +13,8 @@ export interface Equation {
     difficulty: 'a' | 'e';
     topic: string;
     title: string;
+    legend: string;
+    description: string;
 }
 
 export interface Topics {

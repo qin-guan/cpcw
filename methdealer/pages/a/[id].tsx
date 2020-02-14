@@ -5,7 +5,7 @@ import { Calculator } from '../../functions/calculator';
 import { Equation, GTTopics } from '../../types/calculator';
 import { withRouter, SingletonRouter } from 'next/router'
 import { EquationHeader } from '../../components/EquationHeader';
-import { Loading } from 'carbon-components-react'
+import { Loading, Modal } from 'carbon-components-react'
 
 interface AMathEquationPageProps {
   topics: GTTopics;
@@ -17,12 +17,14 @@ interface AMathEquationPageProps {
 interface AMathEquationPageState {
   width: number;
   height: number;
+  modal: boolean
 }
 
 class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEquationPageState> {
   state = {
     height: 0,
-    width: 0
+    width: 0,
+    modal: false
   }
 
   static getInitialProps({ query }) {
@@ -45,9 +47,11 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
   render() {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="a" health={this.props.health}>
+        <Modal open={this.state.modal}>
+        </Modal>
         {this.props.equation.difficulty === 'e' ? <Loading /> : (
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            <EquationHeader formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width}/>
+            <EquationHeader legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} toggleModal={() => this.setState({modal: !this.state.modal})}/>
             <div style={{ flex: 1 }}></div>
           </div>
         )}
