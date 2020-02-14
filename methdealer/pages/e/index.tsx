@@ -2,8 +2,8 @@ import React from 'react';
 import { Page } from '../../components/Page'
 import { Calculator } from '../../functions/calculator';
 import { GTTopics } from '../../types/calculator';
-import { DataTable, TableContainer, Table, TableHead, TableRow, TableHeader, TableBody, TableCell } from 'carbon-components-react'
 import {withRouter, SingletonRouter} from 'next/router'
+import { SummaryTable } from '../../components/SummaryTable';
 
 interface EMathPageState {
 }
@@ -32,47 +32,7 @@ class EMathPage extends React.Component<EMathPageProps, EMathPageState> {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="e" health={this.props.health}>
         <div style={{ flex: 1, padding: 50 }}>
-          <DataTable
-            rows={rows}
-            headers={[
-              {
-                key: 'id',
-                header: 'ID',
-              },
-              {
-                key: 'title',
-                header: "Title"
-              },
-              {
-                key: 'topic',
-                header: "Topic"
-              }
-            ]}
-            render={({ rows, headers, getHeaderProps }) => (
-              <TableContainer title="E-Math">
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      {headers.map(header => (
-                        <TableHeader {...getHeaderProps({ header })}>
-                          {header.header}
-                        </TableHeader>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map(row => (
-                      <TableRow onPress={() => alert("N")} key={row.id}>
-                        {row.cells.map(cell => (
-                          <TableCell key={cell.id}>{cell.value}</TableCell>
-                        ))}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            )}
-          />
+          <SummaryTable rows={rows} tableTitle={"Elementary Mathematics"}/>
         </div>
       </Page>
     )
