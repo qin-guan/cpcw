@@ -25,3 +25,4 @@ class Calculator(models.Model):
     title = models.TextField(validators=[validate_empty])
     description = models.TextField(validators=[validate_empty])
     legend = models.TextField()
+    alternative = models.TextField()

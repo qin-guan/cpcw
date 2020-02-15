@@ -7,7 +7,7 @@ export function EquationHeader(props: { formula: string; title: string; topic: s
     const isMobile = props.width < 850
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div>
+            <div style={{marginBottom: 15}}>
                 <h1 style={{ fontWeight: 'bold', marginBottom: 5 }}>{props.title}</h1>
                 <h5>{props.topic}</h5>
             </div>

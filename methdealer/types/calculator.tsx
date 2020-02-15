@@ -15,6 +15,7 @@ export interface Equation {
     title: string;
     legend: string;
     description: string;
+    alternative: string;
 }
 
 export interface Topics {

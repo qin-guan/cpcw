@@ -5,6 +5,6 @@ from .models import Calculator
 
 
 class CalculatorAdmin(admin.ModelAdmin):
-    list_display = ['formula', 'difficulty', 'topic', 'title', 'description', 'legend']
+    list_display = ['formula', 'difficulty', 'topic', 'title', 'description', 'legend', 'alternative']
 
 admin.site.register(Calculator, CalculatorAdmin)

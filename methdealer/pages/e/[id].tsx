@@ -8,6 +8,7 @@ import { withRouter, SingletonRouter } from 'next/router'
 import { EquationHeader } from '../../components/EquationHeader';
 import { Loading, Modal } from 'carbon-components-react'
 
+
 interface EMathEquationPageProps {
   topics: GTTopics;
   health: boolean;
@@ -61,7 +62,7 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
             <EquationHeader toggleModal={() => this._toggleModal()} legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
             {this.props.equation.description ? (
-              <div style={{ flex: 1, marginTop: 15 }}>
+              <div style={{ marginTop: 15 }}>
                 <h3 style={{
                   fontWeight: 'bold',
                   marginBottom: 10
@@ -71,6 +72,21 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                 <p style={{
                   whiteSpace: 'pre-wrap'
                 }}>{this.props.equation.description}</p>
+              </div>
+            ) : null}
+            {this.props.equation.alternative ? (
+              <div style={{ flex: 1, marginTop: 15, display: 'flex', flexDirection: 'column' }}>
+                <h3 style={{
+                  fontWeight: 'bold',
+                  marginBottom: 10
+                }}>
+                  Alternative
+                </h3>
+                {this.props.equation.alternative.split("\\newline").map((i) => (
+                  <div style={{display: 'flex'}}>
+                    <BlockMath math={"\\huge " + i}></BlockMath>
+                  </div>
+                ))}
               </div>
             ) : null}
           </div>
