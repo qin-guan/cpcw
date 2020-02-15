@@ -36,23 +36,42 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
   }
 
   componentDidMount() {
-    this.setState({width: window.innerWidth, height: window.innerHeight})
-    window.addEventListener("resize", () => this.setState({width: window.innerWidth, height: window.innerHeight}))
+    this.setState({ width: window.innerWidth, height: window.innerHeight })
+    window.addEventListener("resize", () => this.setState({ width: window.innerWidth, height: window.innerHeight }))
     if (this.props.equation.difficulty === "e") {
       window.location.href = "/e/" + this.props.router.query.id
       return
     }
   }
 
+  _toggleModal() {
+    this.setState({ modal: !this.state.modal })
+  }
+
   render() {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="a" health={this.props.health}>
-        <Modal open={this.state.modal}>
+        <Modal passiveModal={true} open={this.state.modal} onRequestClose={() => this._toggleModal()} primaryButton={false} modalHeading={"Equation Legend"}>
+          <span style={{
+            whiteSpace: 'pre-wrap'
+          }}>{this.props.equation.legend}</span>
         </Modal>
         {this.props.equation.difficulty === 'e' ? <Loading /> : (
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            <EquationHeader legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} toggleModal={() => this.setState({modal: !this.state.modal})}/>
-            <div style={{ flex: 1 }}></div>
+            <EquationHeader legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} toggleModal={() => this._toggleModal()} />
+            {this.props.equation.description ? (
+              <div style={{ flex: 1, marginTop: 15 }}>
+                <h3 style={{
+                  fontWeight: 'bold',
+                  marginBottom: 10
+                }}>
+                  Description
+              </h3>
+                <p style={{
+                  whiteSpace: 'pre-wrap'
+                }}>{this.props.equation.description}</p>
+              </div>
+            ) : null}
           </div>
         )}
       </Page>
