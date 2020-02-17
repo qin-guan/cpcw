@@ -4,4 +4,4 @@ from .models import Calculator
 class CalculatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calculator
-        fields = ('id', 'formula', 'difficulty', 'topic', 'title', 'description', 'legend', 'alternative')
+        fields = ('id', 'formula', 'difficulty', 'topic', 'title', 'description', 'legend', 'alternative', 'calculation_vars')

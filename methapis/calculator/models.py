@@ -18,6 +18,16 @@ def validate_empty(value):
             params={'value': value},
         )
 
+def validate_c_var(value): 
+    i = value.replace(" ", "")
+    i = i.split(",")
+    for v in i:
+        if v.isalpha() == False:
+            raise ValidationError(
+                _('%(value)s can only contain alphabets'),
+                params={'value': value},
+            )
+
 class Calculator(models.Model):
     formula = models.TextField(validators=[validate_empty])
     difficulty = models.TextField(validators=[validate_difficulty])
@@ -26,3 +36,4 @@ class Calculator(models.Model):
     description = models.TextField(validators=[validate_empty])
     legend = models.TextField()
     alternative = models.TextField()
+    calculation_vars = models.TextField(validators=[validate_c_var])
