@@ -12,6 +12,15 @@ class CalculatorView(viewsets.ModelViewSet):
     serializer_class = CalculatorSerializer
     queryset = Calculator.objects.all()
 
+    @action(methods=['GET'], detail=True, name="Calculate value for formula", url_path="cv")
+    def calculateValue(self, request, pk=None):
+        res = {}
+        vs = []
+        for variable in self.get_object().calculation_vars:
+            if variable not in request.query_params.keys():
+                res = {"error": True}
+        return Response(res)
+
     @action(detail=False, methods=['GET'], name='Get topics for difficulties')
     def getTopics(self, request, *args, **kwargs):
         if ("difficulty" not in request.query_params.keys() or ("a" not in request.query_params['difficulty'] and "e" not in request.query_params['difficulty'])):

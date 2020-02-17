@@ -24,9 +24,18 @@ def validate_c_var(value):
     for v in i:
         if v.isalpha() == False:
             raise ValidationError(
-                _('%(value)s can only contain alphabets'),
+                _('%(value)s contains charactars that are not alphabets'),
                 params={'value': value},
             )
+
+def validate_c_formula(value):
+    if not len(value.split("=")) == 2:
+        for i in value.split("="):
+            if not len(i) > 0:        
+                raise ValidationError(
+                        _('%(value)s must be a valid equation'),
+                        params={'value': value},
+                    )
 
 class Calculator(models.Model):
     formula = models.TextField(validators=[validate_empty])
@@ -37,3 +46,4 @@ class Calculator(models.Model):
     legend = models.TextField()
     alternative = models.TextField()
     calculation_vars = models.TextField(validators=[validate_c_var])
+    calculation_formula = models.TextField(validators=[validate_c_formula])
