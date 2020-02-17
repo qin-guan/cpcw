@@ -20,13 +20,15 @@ interface EMathEquationPageState {
   width: number;
   height: number;
   modal: boolean;
+  alternativeModal: boolean
 }
 
 class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEquationPageState> {
   state = {
     width: 0,
     height: 0,
-    modal: false
+    modal: false,
+    alternativeModal: false
   }
 
   static getInitialProps({ query }) {
@@ -50,9 +52,20 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
     this.setState({ modal: !this.state.modal })
   }
 
+  _toggleAlternativeModal() {
+    this.setState({ alternativeModal: !this.state.alternativeModal })
+  }
+
   render() {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="e" health={this.props.health}>
+        <Modal passiveModal={true} open={this.state.alternativeModal} onRequestClose={() => this._toggleAlternativeModal()} primaryButton={false} modalHeading={"Alternative Equations"}>
+          {this.props.equation.alternative.split("\\newline").map((i) => {
+            return (
+              <BlockMath math={"\\huge " + i} />
+            )
+          })}
+        </Modal>
         <Modal passiveModal={true} open={this.state.modal} onRequestClose={() => this._toggleModal()} primaryButton={false} modalHeading={"Equation Legend"}>
           <span style={{
             whiteSpace: 'pre-wrap'
@@ -60,7 +73,7 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
         </Modal>
         {this.props.equation.difficulty === 'a' ? <Loading /> : (
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            <EquationHeader toggleModal={() => this._toggleModal()} legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
+            <EquationHeader toggleAlternativeModal={() => this._toggleAlternativeModal()} alternative={!!this.props.equation.alternative} toggleModal={() => this._toggleModal()} legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
             {this.props.equation.description ? (
               <div style={{ marginTop: 15 }}>
                 <h3 style={{
@@ -72,21 +85,6 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                 <p style={{
                   whiteSpace: 'pre-wrap'
                 }}>{this.props.equation.description}</p>
-              </div>
-            ) : null}
-            {this.props.equation.alternative ? (
-              <div style={{ flex: 1, marginTop: 25, display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{
-                  fontWeight: 'bold',
-                  marginBottom: 10
-                }}>
-                  Alternative
-                </h3>
-                {this.props.equation.alternative.split("\\newline").map((i) => (
-                  <div style={{display: 'flex', marginTop: 10}}>
-                    <BlockMath math={"\\huge " + i}></BlockMath>
-                  </div>
-                ))}
               </div>
             ) : null}
           </div>
