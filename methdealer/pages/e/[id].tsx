@@ -6,8 +6,8 @@ import { Equation, GTTopics } from '../../types/calculator';
 import { InlineMath, BlockMath } from 'react-katex';
 import { withRouter, SingletonRouter } from 'next/router'
 import { EquationHeader } from '../../components/EquationHeader';
-import { Loading, Modal } from 'carbon-components-react'
-
+import { Loading, Modal, TextInput } from 'carbon-components-react'
+import {Calculate} from '../../components/Calculate'
 
 interface EMathEquationPageProps {
   topics: GTTopics;
@@ -40,6 +40,7 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
   }
 
   componentDidMount() {
+    console.log(this.props.equation)
     this.setState({ width: window.innerWidth, height: window.innerHeight })
     window.addEventListener("resize", () => this.setState({ width: window.innerWidth, height: window.innerHeight }))
     if (this.props.equation.difficulty === "a") {
@@ -75,7 +76,7 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
             <EquationHeader toggleAlternativeModal={() => this._toggleAlternativeModal()} alternative={!!this.props.equation.alternative} toggleModal={() => this._toggleModal()} legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
             {this.props.equation.description ? (
-              <div style={{ marginTop: 15 }}>
+              <div style={{ marginTop: 30 }}>
                 <h3 style={{
                   fontWeight: 'bold',
                   marginBottom: 10
@@ -87,6 +88,9 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                 }}>{this.props.equation.description}</p>
               </div>
             ) : null}
+            <div style={{marginTop: 30}}>
+            <Calculate width={this.state.width} calculation_vars={this.props.equation.calculation_vars}/>
+            </div>
           </div>
         )}
       </Page>

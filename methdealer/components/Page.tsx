@@ -60,7 +60,7 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
               <HeaderGlobalBar>
                 <HeaderGlobalAction
                   aria-label="Search"
-                  onClick={() => alert('search click')}>
+                  onClick={() => window.location.href = '/search'}>
                   <Search20 />
                 </HeaderGlobalAction>
                 <HeaderGlobalAction

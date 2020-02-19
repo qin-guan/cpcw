@@ -16,6 +16,8 @@ export interface Equation {
     legend: string;
     description: string;
     alternative: string;
+    calculation_vars: string;
+    calculation_formula: string;
 }
 
 export interface Topics {
