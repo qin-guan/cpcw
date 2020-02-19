@@ -89,7 +89,9 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
               </div>
             ) : null}
             <div style={{marginTop: 30}}>
-            <Calculate width={this.state.width} calculation_vars={this.props.equation.calculation_vars}/>
+            <Calculate onCalculate={(vars) => {
+              console.log(vars)
+            }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars}/>
             </div>
           </div>
         )}

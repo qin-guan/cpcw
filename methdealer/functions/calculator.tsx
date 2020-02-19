@@ -41,6 +41,12 @@ function getEquation(id: number): Promise<Equation> {
     })
 }
 
+function calculateValue(id: number, values: {[key: string]: number}): Promise<string> {
+    return new Promise<string> ((resolve, reject) => {
+        axios.get(API_URL + "/api/calculators/" + id + "/cv")
+    })
+}
+
 export const Calculator = {
     healthCheck: healthCheck,
     getTopics: getTopics,
