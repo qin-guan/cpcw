@@ -13,8 +13,8 @@ export function BlockAnswer(props: { katex: string; units: string }) {
                 borderTopStyle: 'solid',
                 paddingTop: 15,
             }}>
-                <h4 style={{marginBottom: 10}}>Answer</h4>
-                <InlineMath math={"\\Large " + props.katex + props.units} />
+                <h4 style={{marginBottom: 10}}>Answer:</h4>
+                <InlineMath math={"\\Large " + props.katex + (props.units === "_" ? "" : props.units)} />
             </div>
         )
     }

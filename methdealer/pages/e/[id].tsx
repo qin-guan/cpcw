@@ -95,7 +95,6 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
               <h3 style={{marginBottom: 10}}>
                 Calculator
               </h3>
-              <InlineMath math={this.props.equation.formula} />
               <Evaluate formula={this.props.equation.formula} onCalculate={(vars) => {
                 Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
               }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />

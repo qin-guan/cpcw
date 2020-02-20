@@ -9,14 +9,18 @@ export function Evaluate(props: { formula: string, calculation_vars: string; wid
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            width: '100%'
+            width: '100%',
+            marginTop: 10
         }}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
             <h4 style={{
                 fontWeight: 'bold',
-                marginTop: 15
+                marginRight: 10
             }}>
                 Evaluate
             </h4>
+            <InlineMath math={props.formula} />
+            </div>
             <div style={{ flexDirection: props.width < 850 ? "column" : "row", display: 'flex', alignItems: props.width < 850 ? "flex-start" : 'center', width: '100%', justifyContent: 'space-between' }}>
                 <div style={{ width: '100%' }}>
                     {props.calculation_vars.split(",").map((i) => {
@@ -35,7 +39,7 @@ export function Evaluate(props: { formula: string, calculation_vars: string; wid
                     })}
                 </div>
                 <div style={{ marginTop: props.width < 850 ? 15 : 0 }}>
-                    <Button onClick={() => props.onCalculate(vars)}>Calculate</Button>
+                    <Button onClick={() => props.onCalculate(vars)}>Evaluate</Button>
                 </div>
             </div>
         </div>
