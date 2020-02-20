@@ -83,7 +83,7 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
                 </h3>
                 {this.props.equation.alternative.split("\\newline").map((i) => (
                   <div style={{display: 'flex', marginTop: 10}}>
-                    <BlockMath math={"\\huge " + i}></BlockMath>
+                    <BlockMath math={"\\Huge " + i}></BlockMath>
                   </div>
                 ))}
               </div>

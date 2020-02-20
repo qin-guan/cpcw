@@ -7,7 +7,8 @@ import { InlineMath, BlockMath } from 'react-katex';
 import { withRouter, SingletonRouter } from 'next/router'
 import { EquationHeader } from '../../components/EquationHeader';
 import { Loading, Modal, TextInput } from 'carbon-components-react'
-import {Calculate} from '../../components/Calculate'
+import { Evaluate } from '../../components/Evaluate'
+import { BlockAnswer } from '../../components/BlockAnswer'
 
 interface EMathEquationPageProps {
   topics: GTTopics;
@@ -20,7 +21,8 @@ interface EMathEquationPageState {
   width: number;
   height: number;
   modal: boolean;
-  alternativeModal: boolean
+  alternativeModal: boolean;
+  answer: string
 }
 
 class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEquationPageState> {
@@ -28,7 +30,8 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
     width: 0,
     height: 0,
     modal: false,
-    alternativeModal: false
+    alternativeModal: false,
+    answer: ""
   }
 
   static getInitialProps({ query }) {
@@ -63,7 +66,7 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
         <Modal passiveModal={true} open={this.state.alternativeModal} onRequestClose={() => this._toggleAlternativeModal()} primaryButton={false} modalHeading={"Alternative Equations"}>
           {this.props.equation.alternative.split("\\newline").map((i) => {
             return (
-              <BlockMath math={"\\huge " + i} />
+              <BlockMath math={"\\Huge " + i} />
             )
           })}
         </Modal>
@@ -74,7 +77,7 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
         </Modal>
         {this.props.equation.difficulty === 'a' ? <Loading /> : (
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            <EquationHeader toggleAlternativeModal={() => this._toggleAlternativeModal()} alternative={!!this.props.equation.alternative} toggleModal={() => this._toggleModal()} legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
+            <EquationHeader toggleAlternativeModal={() => this._toggleAlternativeModal()} alternative={this.props.equation.alternative !== "_"} toggleModal={() => this._toggleModal()} legend={this.props.equation.legend !== "_"} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
             {this.props.equation.description ? (
               <div style={{ marginTop: 30 }}>
                 <h3 style={{
@@ -88,10 +91,15 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                 }}>{this.props.equation.description}</p>
               </div>
             ) : null}
-            <div style={{marginTop: 30}}>
-            <Calculate onCalculate={(vars) => {
-              console.log(vars)
-            }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars}/>
+            <div style={{ marginTop: 30 }}>
+              <h3 style={{marginBottom: 10}}>
+                Calculator
+              </h3>
+              <InlineMath math={this.props.equation.formula} />
+              <Evaluate formula={this.props.equation.formula} onCalculate={(vars) => {
+                Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
+              }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
+              <BlockAnswer katex={this.state.answer} units={this.props.equation.calculated_units} />
             </div>
           </div>
         )}

@@ -47,3 +47,4 @@ class Calculator(models.Model):
     alternative = models.TextField()
     calculation_vars = models.TextField(validators=[validate_c_var])
     calculation_formula = models.TextField(validators=[validate_c_formula])
+    calculated_units = models.TextField(validators=[validate_empty])

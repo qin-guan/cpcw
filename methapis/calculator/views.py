@@ -8,6 +8,10 @@ from rest_framework.parsers import JSONParser
 from rest_framework.decorators import action
 from django.forms.models import model_to_dict
 import re
+from sympy import *
+
+def parseStringToNumber(s):
+    return float(s.replace('\U00002013', '-'))
 
 class CalculatorView(viewsets.ModelViewSet):
     serializer_class = CalculatorSerializer
@@ -17,16 +21,16 @@ class CalculatorView(viewsets.ModelViewSet):
     def calculateValue(self, request, pk=None):
         res = {"error": False}
         vals = {}
-        for variable in self.get_object().calculation_vars.split(","):
-            if variable not in request.query_params.keys():
+        arr_calculation_vars = self.get_object().calculation_vars.split(",")
+        dict_query_params = request.query_params
+        for variable in arr_calculation_vars:
+            if variable not in dict_query_params.keys():
                 res = {"error": True}
         if res["error"] == True:
             return Response(res)
-        for queryvalkey in request.query_params.keys():
-            param = request.query_params[queryvalkey].replace('\U00002013', '-')
-            vals[queryvalkey] = float(param)
-        print(vals, self.get_object().calculation_formula.split("=")[0])
-        res["ans"] = eval(self.get_object().calculation_formula.split("=")[0], {'__builtins__': None}, vals)
+        for key in dict_query_params.keys():
+            vals[key] = parseStringToNumber(dict_query_params[key])
+        res["ans"] = eval(self.get_object().calculation_formula, {}, vals)
         return Response(res)
 
     @action(detail=False, methods=['GET'], name='Get topics for difficulties')

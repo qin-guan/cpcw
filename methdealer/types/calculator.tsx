@@ -18,6 +18,7 @@ export interface Equation {
     alternative: string;
     calculation_vars: string;
     calculation_formula: string;
+    calculated_units: string;
 }
 
 export interface Topics {

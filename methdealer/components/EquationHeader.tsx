@@ -12,7 +12,7 @@ export function EquationHeader(props: { formula: string; title: string; topic: s
                 <h5>{props.topic}</h5>
             </div>
             <div style={{ display: 'flex', justifyContent: isMobile ? "flex-start" : 'flex-end', alignItems: isMobile ? "flex-start" : 'center', flexDirection: isMobile ? "column" : "row" }}>
-                <BlockMath math={"\\huge " + props.formula}></BlockMath>
+                <BlockMath math={"\\Huge " + props.formula}></BlockMath>
                 {props.alternative ? (
                     <div style={{ flex: 1 }} />
                 ) : null}

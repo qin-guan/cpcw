@@ -23,10 +23,10 @@ function initialize(difficulty: "a" | "e"): Promise<{ health: boolean; topics: G
     return new Promise<{ health: boolean; topics: GTTopics }>((resolve, reject) => {
         healthCheck().then((health) => {
             if (!health) {
-                resolve({health: false, topics: {}})
+                resolve({ health: false, topics: {} })
             } else {
                 getTopics(difficulty).then((topics) => {
-                    resolve({health: true, topics: topics})
+                    resolve({ health: true, topics: topics })
                 }).catch((e) => console.error(e))
             }
         }).catch((e) => console.error(e))
@@ -34,16 +34,23 @@ function initialize(difficulty: "a" | "e"): Promise<{ health: boolean; topics: G
 }
 
 function getEquation(id: number): Promise<Equation> {
-    return new Promise<Equation> ((resolve, reject) => {
-        axios.get(API_URL + "/api/calculators/" + id).then(({data}) => {
+    return new Promise<Equation>((resolve, reject) => {
+        axios.get(API_URL + "/api/calculators/" + id).then(({ data }) => {
             resolve(data)
         }).catch((e) => reject(e))
     })
 }
 
-function calculateValue(id: number, values: {[key: string]: number}): Promise<string> {
-    return new Promise<string> ((resolve, reject) => {
-        axios.get(API_URL + "/api/calculators/" + id + "/cv")
+function calculateValue(id: number, values: { [key: string]: number }): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+        axios.get(API_URL + "/api/calculators/" + id + "/cv", {
+            params: {
+                ...values
+            }
+        }).then(({ data }) => {
+            if (data.error) { return reject(new Error("methapi throwed error")) }
+            resolve(data.ans)
+        })
     })
 }
 
@@ -51,5 +58,6 @@ export const Calculator = {
     healthCheck: healthCheck,
     getTopics: getTopics,
     initialize: initialize,
-    getEquation: getEquation
+    getEquation: getEquation,
+    calculateValue: calculateValue
 }
