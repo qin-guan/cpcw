@@ -59,7 +59,7 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
         </Modal>
         {this.props.equation.difficulty === 'e' ? <Loading /> : (
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            <EquationHeader legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} toggleModal={() => this._toggleModal()} />
+            {/* <EquationHeader legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} toggleModal={() => this._toggleModal()} /> */}
             {this.props.equation.description ? (
               <div style={{ marginTop: 15 }}>
                 <h3 style={{

@@ -6,9 +6,10 @@ import { Equation, GTTopics } from '../../types/calculator';
 import { InlineMath, BlockMath } from 'react-katex';
 import { withRouter, SingletonRouter } from 'next/router'
 import { EquationHeader } from '../../components/EquationHeader';
-import { Loading, Modal, TextInput } from 'carbon-components-react'
+import { Loading, Modal, Accordion, AccordionItem } from 'carbon-components-react'
 import { Evaluate } from '../../components/Evaluate'
 import { BlockAnswer } from '../../components/BlockAnswer'
+import { Simplify } from '../../components/Simplify';
 
 interface EMathEquationPageProps {
   topics: GTTopics;
@@ -92,13 +93,23 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
               </div>
             ) : null}
             <div style={{ marginTop: 30 }}>
-              <h3 style={{marginBottom: 10}}>
+              <h3 style={{ marginBottom: 10 }}>
                 Calculator
               </h3>
-              <Evaluate formula={this.props.equation.formula} onCalculate={(vars) => {
-                Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
-              }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
-              <BlockAnswer katex={this.state.answer} units={this.props.equation.calculated_units} />
+              <Accordion>
+                <AccordionItem title={"Evaluate"}>
+                  <Evaluate formula={this.props.equation.formula} onCalculate={(vars) => {
+                    Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
+                  }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
+                  <BlockAnswer katex={this.state.answer} units={this.props.equation.calculated_units} />
+                </AccordionItem>
+                <AccordionItem title={"Simplify"}>
+                  <Simplify formula={this.props.equation.formula} onCalculate={(vars) => {
+                    Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
+                  }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
+                  <BlockAnswer katex={this.state.answer} units={this.props.equation.calculated_units} />
+                </AccordionItem>
+              </Accordion>
             </div>
           </div>
         )}

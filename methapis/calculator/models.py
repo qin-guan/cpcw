@@ -28,15 +28,6 @@ def validate_c_var(value):
                 params={'value': value},
             )
 
-def validate_c_formula(value):
-    if not len(value.split("=")) == 2:
-        for i in value.split("="):
-            if not len(i) > 0:        
-                raise ValidationError(
-                        _('%(value)s must be a valid equation'),
-                        params={'value': value},
-                    )
-
 class Calculator(models.Model):
     formula = models.TextField(validators=[validate_empty])
     difficulty = models.TextField(validators=[validate_difficulty])
@@ -45,6 +36,6 @@ class Calculator(models.Model):
     description = models.TextField(validators=[validate_empty])
     legend = models.TextField()
     alternative = models.TextField()
-    calculation_vars = models.TextField(validators=[validate_c_var])
-    calculation_formula = models.TextField(validators=[validate_c_formula])
+    calculation_vars = models.TextField()
+    calculation_formula = models.TextField()
     calculated_units = models.TextField(validators=[validate_empty])

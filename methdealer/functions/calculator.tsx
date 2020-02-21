@@ -54,10 +54,24 @@ function calculateValue(id: number, values: { [key: string]: number }): Promise<
     })
 }
 
+function simplifyValue(id: number, values: { [key: string]: number }): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+        axios.get(API_URL + "/api/calculators/" + id + "/ev", {
+            params: {
+                ...values
+            }
+        }).then(({ data }) => {
+            if (data.error) { return reject(new Error("methapi throwed error")) }
+            resolve(data.ans)
+        })
+    })
+}
+
 export const Calculator = {
     healthCheck: healthCheck,
     getTopics: getTopics,
     initialize: initialize,
     getEquation: getEquation,
-    calculateValue: calculateValue
+    calculateValue: calculateValue,
+    simplifyValue: simplifyValue
 }
