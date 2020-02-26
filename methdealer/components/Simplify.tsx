@@ -39,7 +39,7 @@ export function Simplify(props: { formula: string, calculation_vars: string; wid
                     })}
                 </div>
                 <div style={{ marginTop: props.width < 850 ? 15 : 0 }}>
-                    <Button onClick={() => props.onCalculate(vars)}>Evaluate</Button>
+                    <Button onClick={() => props.onCalculate(vars)}>Simplify</Button>
                 </div>
             </div>
         </div>

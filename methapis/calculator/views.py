@@ -17,6 +17,22 @@ class CalculatorView(viewsets.ModelViewSet):
     serializer_class = CalculatorSerializer
     queryset = Calculator.objects.all()
 
+    @action(methods=["GET"], detail=True, name="Simplify equation", url_path="se")
+    def simplifyEquation(self, request, pk=None):
+        res = {"error": False}
+        vals = {}
+        arr_calculation_vars = self.get_object().calculation_vars.split(",")
+        dict_query_params = request.query_params
+        for variable in arr_calculation_vars:
+            if variable not in dict_query_params.keys():
+                res = {"error": True}
+        if res["error"] == True:
+            return Response(res)
+        for key in dict_query_params.keys():
+            vals[key] = parseStringToNumber(dict_query_params[key])
+        res["ans"] = symbols('x0:%d'%len(dict_query_params.keys()))
+        return Response(res)
+        
     @action(methods=['GET'], detail=True, name="Calculate value for formula", url_path="cv")
     def calculateValue(self, request, pk=None):
         res = {"error": False}

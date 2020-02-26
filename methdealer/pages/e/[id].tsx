@@ -23,7 +23,8 @@ interface EMathEquationPageState {
   height: number;
   modal: boolean;
   alternativeModal: boolean;
-  answer: string
+  answer: string;
+  simplifyAnswer: string;
 }
 
 class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEquationPageState> {
@@ -32,7 +33,8 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
     height: 0,
     modal: false,
     alternativeModal: false,
-    answer: ""
+    answer: "",
+    simplifyAnswer: ""
   }
 
   static getInitialProps({ query }) {
@@ -105,9 +107,9 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                 </AccordionItem>
                 <AccordionItem title={"Simplify"}>
                   <Simplify formula={this.props.equation.formula} onCalculate={(vars) => {
-                    Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
+                    Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ simplifyAnswer: v })).catch((e) => console.error(e))
                   }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
-                  <BlockAnswer katex={this.state.answer} units={this.props.equation.calculated_units} />
+                  <BlockAnswer katex={this.state.simplifyAnswer} units={this.props.equation.calculated_units} />
                 </AccordionItem>
               </Accordion>
             </div>
