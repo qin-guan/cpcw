@@ -9,6 +9,7 @@ from rest_framework.decorators import action
 from django.forms.models import model_to_dict
 import re
 from sympy import *
+from math import pi
 
 def parseStringToNumber(s):
     return float(s.replace('\U00002013', '-'))
@@ -26,17 +27,19 @@ class CalculatorView(viewsets.ModelViewSet):
         for variable in arr_calculation_vars:
             if variable not in dict_query_params.keys():
                 res = {"error": True}
-        if res["error"] == True:
-            return Response(res)
+        # if res["error"] == True:
+        #     return Response(res)
         for key in dict_query_params.keys():
             vals[key] = parseStringToNumber(dict_query_params[key])
         res["ans"] = symbols('x0:%d'%len(dict_query_params.keys()))
+        # evaluator = Eval()
+        # res["test"] = evaluator.eval("x = 1")
         return Response(res)
         
     @action(methods=['GET'], detail=True, name="Calculate value for formula", url_path="cv")
     def calculateValue(self, request, pk=None):
         res = {"error": False}
-        vals = {}
+        vals = {"pi": pi}
         arr_calculation_vars = self.get_object().calculation_vars.split(",")
         dict_query_params = request.query_params
         for variable in arr_calculation_vars:

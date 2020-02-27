@@ -13,9 +13,7 @@ export function EquationHeader(props: { formula: string; title: string; topic: s
             </div>
             <div style={{ display: 'flex', justifyContent: isMobile ? "flex-start" : 'flex-end', alignItems: isMobile ? "flex-start" : 'center', flexDirection: isMobile ? "column" : "row" }}>
                 <BlockMath math={"\\Huge " + props.formula}></BlockMath>
-                {props.alternative ? (
                     <div style={{ flex: 1 }} />
-                ) : null}
                 {props.alternative ? (
                     <div style={{ marginTop: isMobile ? 15 : 0 }}>
                         <Button renderIcon={ExpandAll20} kind="tertiary" onClick={() => props.toggleAlternativeModal()}>

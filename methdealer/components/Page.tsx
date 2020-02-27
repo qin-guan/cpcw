@@ -39,7 +39,7 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
   }
 
   return (
-    <div style={{ width: '100vw', height: '100vh', display: 'flex' }}>
+    <div style={{ width: '100vw', height: '100vh', display: 'flex', overflow: 'scroll' }}>
       <HeaderContainer
         render={({ isSideNavExpanded, onClickSideNavExpand }) => (
           <>
@@ -103,7 +103,8 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
       <div className={'bx--offset-lg-3'} style={{
         display: 'flex',
         flex: 1,
-        marginTop: 48
+        marginTop: 48,
+        overflow: 'scroll'
       }}>
         {props.children}
       </div>
