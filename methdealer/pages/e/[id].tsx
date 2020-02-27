@@ -105,12 +105,14 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                   }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
                   <BlockAnswer katex={this.state.answer} units={this.props.equation.calculated_units} />
                 </AccordionItem>
-                <AccordionItem title={"Simplify"}>
+                {this.props.equation.simplify_formula === "_" ? (
+                  <AccordionItem title={"Simplify"}>
                   <Simplify formula={this.props.equation.formula} onCalculate={(vars) => {
                     Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ simplifyAnswer: v })).catch((e) => console.error(e))
                   }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
                   <BlockAnswer katex={this.state.simplifyAnswer} units={this.props.equation.calculated_units} />
                 </AccordionItem>
+                ) : null}
               </Accordion>
             </div>
           </div>

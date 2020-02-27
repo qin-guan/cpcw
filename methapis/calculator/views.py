@@ -24,16 +24,15 @@ class CalculatorView(viewsets.ModelViewSet):
         vals = {}
         arr_calculation_vars = self.get_object().calculation_vars.split(",")
         dict_query_params = request.query_params
-        for variable in arr_calculation_vars:
-            if variable not in dict_query_params.keys():
-                res = {"error": True}
-        # if res["error"] == True:
-        #     return Response(res)
-        for key in dict_query_params.keys():
-            vals[key] = parseStringToNumber(dict_query_params[key])
-        res["ans"] = symbols('x0:%d'%len(dict_query_params.keys()))
-        # evaluator = Eval()
-        # res["test"] = evaluator.eval("x = 1")
+        simplify_formula = self.get_object().simplify_formula
+        if "s" not in dict_query_params.keys():
+            res = {"error": True}
+        if res["error"] == True:
+            return Response(res)
+        # for key in dict_query_params.keys():
+        #     vals[key] = parseStringToNumber(dict_query_params[key])
+        symbols("a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z")
+        res["ans"] = ccode(simplify(dict_query_params["s"]))
         return Response(res)
         
     @action(methods=['GET'], detail=True, name="Calculate value for formula", url_path="cv")

@@ -39,3 +39,4 @@ class Calculator(models.Model):
     calculation_vars = models.TextField()
     calculation_formula = models.TextField()
     calculated_units = models.TextField(validators=[validate_empty])
+    simplify_formula = models.TextField()
