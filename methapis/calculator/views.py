@@ -33,6 +33,7 @@ class CalculatorView(viewsets.ModelViewSet):
         #     vals[key] = parseStringToNumber(dict_query_params[key])
         symbols("a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z")
         res["ans"] = ccode(simplify(dict_query_params["s"]))
+        
         return Response(res)
         
     @action(methods=['GET'], detail=True, name="Calculate value for formula", url_path="cv")
@@ -40,6 +41,7 @@ class CalculatorView(viewsets.ModelViewSet):
         res = {"error": False}
         vals = {"pi": pi}
         arr_calculation_vars = self.get_object().calculation_vars.split(",")
+        mappings = self.get_object().calculation_formula_var_mapping.split(",")
         dict_query_params = request.query_params
         for variable in arr_calculation_vars:
             if variable not in dict_query_params.keys():
@@ -47,7 +49,13 @@ class CalculatorView(viewsets.ModelViewSet):
         if res["error"] == True:
             return Response(res)
         for key in dict_query_params.keys():
-            vals[key] = parseStringToNumber(dict_query_params[key])
+            hasMap = False
+            for mapping in mappings:
+                if mapping.split("=")[0] == key:
+                    vals[mapping.split("=")[-1]] = parseStringToNumber(dict_query_params[key])
+                    hasMap = True
+            if hasMap == False:
+                vals[key] = parseStringToNumber(dict_query_params[key])
         res["ans"] = eval(self.get_object().calculation_formula, {}, vals)
         return Response(res)
 

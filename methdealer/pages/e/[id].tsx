@@ -80,7 +80,9 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
         </Modal>
         {this.props.equation.difficulty === 'a' ? <Loading /> : (
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            <EquationHeader toggleAlternativeModal={() => this._toggleAlternativeModal()} alternative={this.props.equation.alternative !== "_"} toggleModal={() => this._toggleModal()} legend={this.props.equation.legend !== "_"} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
+            {this.props.equation.formula !== "_" ? (
+              <EquationHeader toggleAlternativeModal={() => this._toggleAlternativeModal()} alternative={this.props.equation.alternative !== "_"} toggleModal={() => this._toggleModal()} legend={this.props.equation.legend !== "_"} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
+            ) : null}
             {this.props.equation.description ? (
               <div style={{ marginTop: 30 }}>
                 <h3 style={{
@@ -89,9 +91,11 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                 }}>
                   Description
               </h3>
-                <p style={{
-                  whiteSpace: 'pre-wrap'
-                }}>{this.props.equation.description}</p>
+                {this.props.equation.description !== "_" ? (
+                  <p style={{
+                    whiteSpace: 'pre-wrap'
+                  }}>{this.props.equation.description}</p>
+                ) : <span>This formula does not have a description</span>}
               </div>
             ) : null}
             <div style={{ marginTop: 30 }}>
@@ -100,19 +104,25 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
               </h3>
               <Accordion>
                 <AccordionItem title={"Evaluate"}>
-                  <Evaluate formula={this.props.equation.formula} onCalculate={(vars) => {
-                    Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
-                  }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
-                  <BlockAnswer katex={this.state.answer} units={this.props.equation.calculated_units} />
+                  {this.props.equation.calculation_formula !== "_" ? (
+                    <>
+                      <Evaluate formula={this.props.equation.formula} onCalculate={(vars) => {
+                        Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
+                      }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
+                      <BlockAnswer katex={this.state.answer} units={this.props.equation.calculated_units} />
+                    </>
+                  ) : <span>Evaluate is not available for this equation</span>}
                 </AccordionItem>
-                {this.props.equation.simplify_formula === "_" ? (
-                  <AccordionItem title={"Simplify"}>
-                  <Simplify formula={this.props.equation.formula} onCalculate={(vars) => {
-                    Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ simplifyAnswer: v })).catch((e) => console.error(e))
-                  }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
-                  <BlockAnswer katex={this.state.simplifyAnswer} units={this.props.equation.calculated_units} />
+                <AccordionItem title={"Simplify"}>
+                  {this.props.equation.simplify_formula !== "_" ? (
+                    <>
+                      <Simplify formula={this.props.equation.formula} onCalculate={(vars) => {
+                        Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ simplifyAnswer: v })).catch((e) => console.error(e))
+                      }} width={this.state.width} calculation_vars={this.props.equation.calculation_vars} />
+                      <BlockAnswer katex={this.state.simplifyAnswer} units={this.props.equation.calculated_units} />
+                    </>
+                  ) : <span>Simplify is not available for this equation</span>}
                 </AccordionItem>
-                ) : null}
               </Accordion>
             </div>
           </div>
