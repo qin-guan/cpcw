@@ -23,8 +23,10 @@ class CalculatorView(viewsets.ModelViewSet):
     def graphData(self, request, pk=None):
         res = {"error": False}
         vals = {}
+        formula = self.get_object().formula
         arr_calculation_vars = self.get_object().calculation_vars.split(",")
         dict_query_params = request.query_params
+        
         return Response(res)
 
     @action(methods=["GET"], detail=True, name="Simplify equation", url_path="se")

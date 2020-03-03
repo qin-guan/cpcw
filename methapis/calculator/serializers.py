@@ -4,7 +4,22 @@ from .models import Calculator
 class CalculatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calculator
-        fields = ('id', 'formula', 'difficulty', 'topic', 'title', 'description', 'legend', 'alternative', 'calculation_vars', 'calculation_formula', 'calculated_units', 'simplify_formula', 'calculation_formula_var_mapping')
+        fields = (
+            'id',
+            'formula',
+            'difficulty',
+            'topic',
+            'title',
+            'description',
+            'legend',
+            'alternative',
+            'calculation_vars',
+            'calculation_formula',
+            'calculated_units',
+            'simplify_formula',
+            'calculation_formula_var_mapping',
+            'graph_formula'
+         )
 
     def validate(self, data):
         mapping = data['calculation_formula_var_mapping']

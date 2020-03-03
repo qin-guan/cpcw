@@ -41,3 +41,4 @@ class Calculator(models.Model):
     calculated_units = models.TextField(validators=[validate_empty])
     calculation_formula_var_mapping = models.TextField()
     simplify_formula = models.TextField()
+    graph_formula = models.TextField()
