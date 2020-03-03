@@ -10,6 +10,7 @@ from django.forms.models import model_to_dict
 import re
 from sympy import *
 from math import pi
+from sympy.parsing.sympy_parser import parse_expr
 
 def parseStringToNumber(s):
     return float(s.replace('\U00002013', '-'))
@@ -17,6 +18,14 @@ def parseStringToNumber(s):
 class CalculatorView(viewsets.ModelViewSet):
     serializer_class = CalculatorSerializer
     queryset = Calculator.objects.all()
+
+    @action(methods=["GET"], detail=True, name="Get Graph Data", url_path="gd")
+    def graphData(self, request, pk=None):
+        res = {"error": False}
+        vals = {}
+        arr_calculation_vars = self.get_object().calculation_vars.split(",")
+        dict_query_params = request.query_params
+        return Response(res)
 
     @action(methods=["GET"], detail=True, name="Simplify equation", url_path="se")
     def simplifyEquation(self, request, pk=None):
@@ -56,7 +65,10 @@ class CalculatorView(viewsets.ModelViewSet):
                     hasMap = True
             if hasMap == False:
                 vals[key] = parseStringToNumber(dict_query_params[key])
-        res["ans"] = eval(self.get_object().calculation_formula, {}, vals)
+        # res["ans"] = eval(self.get_object().calculation_formula, {}, vals)
+        exp = parse_expr(self.get_object().calculation_formula)
+        ans = exp.evalf(subs=vals)
+        res['ans'] = str(ans)
         return Response(res)
 
     @action(detail=False, methods=['GET'], name='Get topics for difficulties')

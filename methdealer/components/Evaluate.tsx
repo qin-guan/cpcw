@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NumberInput, Button } from 'carbon-components-react'
 import { InlineMath, BlockMath } from 'react-katex';
 
@@ -24,13 +24,15 @@ export function Evaluate(props: { formula: string, calculation_vars: string; wid
             <div style={{ flexDirection: props.width < 850 ? "column" : "row", display: 'flex', alignItems: props.width < 850 ? "flex-start" : 'center', width: '100%', justifyContent: 'space-between' }}>
                 <div style={{ width: '100%' }}>
                     {props.calculation_vars.split(",").map((i) => {
-                        vars[i] = 1
+                        if (!(i in vars)) {
+                            vars[i] = 1
+                        }
                         return (
                             <div style={{ display: 'flex', marginTop: 10, alignItems: 'center', width: props.width > 850 ? "50%" : "100%", justifyContent: 'space-between' }}>
-                                <div style={{ width: 40 }}>
+                                <div style={{ width: 100 }}>
                                     <span>{i}:</span>
                                 </div>
-                                <NumberInput value={vars[i]} defaultValue={1} step={0.5} invalidText="Please enter a valid number" isMobile={props.width < 850} onChange={(text) => {
+                                <NumberInput value={vars[i]} step={0.5} invalidText="Please enter a valid number" isMobile={props.width < 850} onChange={(text) => {
                                     vars[i] = text.imaginaryTarget.valueAsNumber
                                     changeVars(vars)
                                 }} />

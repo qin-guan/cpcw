@@ -10,6 +10,7 @@ import { Loading, Modal, Accordion, AccordionItem } from 'carbon-components-reac
 import { Evaluate } from '../../components/Evaluate'
 import { BlockAnswer } from '../../components/BlockAnswer'
 import { Simplify } from '../../components/Simplify';
+import { LineChart, Line } from 'recharts';
 
 interface EMathEquationPageProps {
   topics: GTTopics;
