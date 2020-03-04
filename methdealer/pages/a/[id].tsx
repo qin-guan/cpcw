@@ -3,10 +3,15 @@ import { Page } from '../../components/Page';
 import Router from 'next/router'
 import { Calculator } from '../../functions/calculator';
 import { Equation, GTTopics } from '../../types/calculator';
+import { InlineMath, BlockMath } from 'react-katex';
 import { withRouter, SingletonRouter } from 'next/router'
 import { EquationHeader } from '../../components/EquationHeader';
-import { Loading, Modal } from 'carbon-components-react'
-import { InlineMath, BlockMath } from 'react-katex';
+import { Loading, Modal, Accordion, AccordionItem } from 'carbon-components-react'
+import { Evaluate } from '../../components/Evaluate'
+import { BlockAnswer } from '../../components/BlockAnswer'
+import { Simplify } from '../../components/Simplify';
+import { LineChart, Line } from 'recharts';
+import {FormulaInfo} from '../../components/FormulaInfo'
 
 interface AMathEquationPageProps {
   topics: GTTopics;
@@ -18,14 +23,16 @@ interface AMathEquationPageProps {
 interface AMathEquationPageState {
   width: number;
   height: number;
-  modal: boolean
+  modal: boolean;
+  alternativeModal: boolean;
 }
 
 class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEquationPageState> {
   state = {
     height: 0,
     width: 0,
-    modal: false
+    modal: false,
+    alternativeModal: false
   }
 
   static getInitialProps({ query }) {
@@ -49,46 +56,27 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
     this.setState({ modal: !this.state.modal })
   }
 
+  _toggleAlternativeModal() {
+    this.setState({ alternativeModal: !this.state.alternativeModal })
+  }
+
   render() {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="a" health={this.props.health}>
+        <Modal passiveModal={true} open={this.state.alternativeModal} onRequestClose={() => this._toggleAlternativeModal()} primaryButton={false} modalHeading={"Alternative Equations"}>
+          {this.props.equation.alternative.split("\\newline").map((i) => {
+            return (
+              <BlockMath math={"\\Huge " + i} />
+            )
+          })}
+        </Modal>
         <Modal passiveModal={true} open={this.state.modal} onRequestClose={() => this._toggleModal()} primaryButton={false} modalHeading={"Equation Legend"}>
           <span style={{
             whiteSpace: 'pre-wrap'
           }}>{this.props.equation.legend}</span>
         </Modal>
         {this.props.equation.difficulty === 'e' ? <Loading /> : (
-          <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            {/* <EquationHeader legend={!!this.props.equation.legend} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} toggleModal={() => this._toggleModal()} /> */}
-            {this.props.equation.description ? (
-              <div style={{ marginTop: 15 }}>
-                <h3 style={{
-                  fontWeight: 'bold',
-                  marginBottom: 10
-                }}>
-                  Description
-              </h3>
-                <p style={{
-                  whiteSpace: 'pre-wrap'
-                }}>{this.props.equation.description}</p>
-              </div>
-            ) : null}
-            {this.props.equation.alternative ? (
-              <div style={{ flex: 1, marginTop: 25, display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{
-                  fontWeight: 'bold',
-                  marginBottom: 10
-                }}>
-                  Alternative
-                </h3>
-                {this.props.equation.alternative.split("\\newline").map((i) => (
-                  <div style={{ display: 'flex', marginTop: 10 }}>
-                    <BlockMath math={"\\Huge " + i}></BlockMath>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>
+          <FormulaInfo height={this.state.height} width={this.state.width} equation={this.props.equation}/>
         )}
       </Page>
     )

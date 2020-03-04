@@ -35,7 +35,7 @@ class CalculatorSerializer(serializers.ModelSerializer):
         graph_formula = data['graph_formula']
         resource_links = data["resource_links"]
         if len(resource_links) > 0 and resource_links != "_":
-            for i in resource_links.splitlinea():
+            for i in resource_links.split(","):
                 if re.match(regex, i) == False: 
                     raise serializers.ValidationError("Must be valid link")
         if len(graph_formula) > 0 and graph_formula != "_":
