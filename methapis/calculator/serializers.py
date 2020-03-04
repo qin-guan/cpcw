@@ -23,7 +23,17 @@ class CalculatorSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         mapping = data['calculation_formula_var_mapping']
-        if len(mapping) > 0:
+        graph_formula = data['graph_formula']
+        if len(graph_formula) > 0 and graph_formula != "_":
+            for i in graph_formula.split(","):
+                if not len(i.split('=')) == 2:
+                    raise serializers.ValidationError("Must be valid formula")
+                for c in i:
+                    if not c == "=":
+                        if not c.isalpha():
+                            raise serializers.ValidationError("Must be valid alpha char")
+            
+        if len(mapping) > 0 and mapping != "_":
             for i in mapping.split(","):
                 if not len(i.split("=")) == 2:
                     raise serializers.ValidationError("Must be valid char mapping")

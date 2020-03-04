@@ -81,9 +81,7 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
         </Modal>
         {this.props.equation.difficulty === 'a' ? <Loading /> : (
           <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
-            {this.props.equation.formula !== "_" ? (
               <EquationHeader toggleAlternativeModal={() => this._toggleAlternativeModal()} alternative={this.props.equation.alternative !== "_"} toggleModal={() => this._toggleModal()} legend={this.props.equation.legend !== "_"} formula={this.props.equation.formula} title={this.props.equation.title} topic={this.props.equation.topic} width={this.state.width} />
-            ) : null}
             {this.props.equation.description ? (
               <div style={{ marginTop: 30 }}>
                 <h3 style={{

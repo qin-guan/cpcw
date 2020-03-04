@@ -11,24 +11,26 @@ export function EquationHeader(props: { formula: string; title: string; topic: s
                 <h1 style={{ fontWeight: 'bold', marginBottom: 5 }}>{props.title}</h1>
                 <h5>{props.topic}</h5>
             </div>
-            <div style={{ display: 'flex', justifyContent: isMobile ? "flex-start" : 'flex-end', alignItems: isMobile ? "flex-start" : 'center', flexDirection: isMobile ? "column" : "row" }}>
-                <BlockMath math={"\\Huge " + props.formula}></BlockMath>
+            {props.formula !== "_" ? (
+                <div style={{ display: 'flex', justifyContent: isMobile ? "flex-start" : 'flex-end', alignItems: isMobile ? "flex-start" : 'center', flexDirection: isMobile ? "column" : "row" }}>
+                    <BlockMath math={"\\Huge " + props.formula}></BlockMath>
                     <div style={{ flex: 1 }} />
-                {props.alternative ? (
-                    <div style={{ marginTop: isMobile ? 15 : 0 }}>
-                        <Button renderIcon={ExpandAll20} kind="tertiary" onClick={() => props.toggleAlternativeModal()}>
-                            Alternative
+                    {props.alternative ? (
+                        <div style={{ marginTop: isMobile ? 15 : 0 }}>
+                            <Button renderIcon={ExpandAll20} kind="tertiary" onClick={() => props.toggleAlternativeModal()}>
+                                Alternative
                         </Button>
-                    </div>
-                ) : null}
-                {props.legend ? (
-                    <div style={{ marginTop: isMobile ? 15 : 0, marginLeft: isMobile ? 0 : 15 }}>
-                        <Button renderIcon={Legend20} kind="secondary" onClick={() => props.toggleModal()}>
-                            Legend
+                        </div>
+                    ) : null}
+                    {props.legend ? (
+                        <div style={{ marginTop: isMobile ? 15 : 0, marginLeft: isMobile ? 0 : 15 }}>
+                            <Button renderIcon={Legend20} kind="secondary" onClick={() => props.toggleModal()}>
+                                Legend
                         </Button>
-                    </div>
-                ) : null}
-            </div>
+                        </div>
+                    ) : null}
+                </div>
+            ) : null}
         </div>
     )
 }
