@@ -80,6 +80,19 @@ function expandValue(id: number, values: { [key: string]: number }): Promise<str
     })
 }
 
+function graphData(id: number, values: { [key: string]: number }): Promise<{x: number, y: number}[]> {
+    return new Promise<{x: number, y: number}[]>((resolve, reject) => {
+        axios.get(API_URL + "/api/calculators/" + id + "/gd", {
+            params: {
+                ...values
+            }
+        }).then(({ data }) => {
+            if (data.error) { return reject(new Error("methapi throwed error")) }
+            resolve(data.ans)
+        })
+    })
+}
+
 export const Calculator = {
     healthCheck: healthCheck,
     getTopics: getTopics,
@@ -87,5 +100,6 @@ export const Calculator = {
     getEquation: getEquation,
     calculateValue: calculateValue,
     simplifyValue: simplifyValue,
-    expandValue: expandValue
+    expandValue: expandValue,
+    graphData: graphData
 }

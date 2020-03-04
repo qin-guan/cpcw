@@ -11,6 +11,7 @@ import re
 from sympy import *
 from math import pi
 from sympy.parsing.sympy_parser import parse_expr
+import numpy
 
 def parseStringToNumber(s):
     return float(s.replace('\U00002013', '-'))
@@ -65,12 +66,27 @@ class CalculatorView(viewsets.ModelViewSet):
         res = {"error": False}
         vals = {}
         formula = self.get_object().graph_formula
+        arr_calculation_vars = self.get_object().calculation_vars.split(",")
+        dict_query_params = request.query_params
         if formula == "_":
+            res['error'] = True
+        for i in arr_calculation_vars:
+            if i.lower() != "x" and i.lower() != "y":
+                if not i in dict_query_params:
+                    res['error'] = True
+        if res['error']:
             return Response(res)
-        else:
-            arr_calculation_vars = self.get_object().calculation_vars.split(",")
-            dict_query_params = request.query_params
-            return Response(res)
+        eval_form = formula.split("=")[-1]
+        arr = []
+        parsed = parseAdvParamToNumber(eval_form)
+        for i in dict_query_params.keys():
+            vals[i] = parseStringToNumber(dict_query_params[i])
+        for i in numpy.arange(-100, 100, 0.5):
+            vals["x"] = i
+            exp = parsed.subs(vals)
+            arr.append({"y": float(exp.evalf()), "x": float(i)})
+        res["ans"] = arr
+        return Response(res)
 
     @action(methods=["GET"], detail=True, name="Simplify equation", url_path="se")
     def simplifyEquation(self, request, pk=None):
@@ -83,11 +99,7 @@ class CalculatorView(viewsets.ModelViewSet):
             res = {"error": True}
         if res["error"] == True:
             return Response(res)
-        # for key in dict_query_params.keys():
-        #     vals[key] = parseStringToNumber(dict_query_params[key])
-        symbols("a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z")
         res["ans"] = ccode(simplify(dict_query_params["s"]))
-        
         return Response(res)
         
     @action(methods=['GET'], detail=True, name="Calculate value for formula", url_path="cv")
@@ -110,7 +122,6 @@ class CalculatorView(viewsets.ModelViewSet):
                     hasMap = True
             if hasMap == False:
                 vals[key] = parseStringToNumber(dict_query_params[key])
-        # res["ans"] = eval(self.get_object().calculation_formula, {}, vals)
         exp = parse_expr(self.get_object().calculation_formula)
         ans = exp.evalf(subs=vals)
         res['ans'] = str(ans)

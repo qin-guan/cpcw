@@ -8,8 +8,9 @@ import { Simplify } from '../components/Simplify';
 import { Expand } from '../components/Expand';
 import { LineChart, Line } from 'recharts';
 import { Calculator } from '../functions/calculator';
+import {Graph} from '../components/Graph'
 
-export function FormulaInfo(props: { toggleModal(): void; toggleAlternativeModal(): void; width: number, height: number; equation: Equation; answer: string; simplifyAnswer: string; expandAnswer: string; onCalculate(type: string, vars: { [key: string]: number }): void }) {
+export function FormulaInfo(props: { toggleModal(): void; toggleAlternativeModal(): void; width: number, height: number; equation: Equation; answer: string; simplifyAnswer: string; expandAnswer: string; onCalculate(type: string, vars: { [key: string]: number }): void, graphData: {x: number, y: number}[]}) {
   return (
     <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
       <EquationHeader toggleAlternativeModal={() => props.toggleAlternativeModal()} alternative={props.equation.alternative !== "_"} toggleModal={() => props.toggleModal()} legend={props.equation.legend !== "_"} formula={props.equation.formula} title={props.equation.title} topic={props.equation.topic} width={props.width} />
@@ -65,6 +66,22 @@ export function FormulaInfo(props: { toggleModal(): void; toggleAlternativeModal
           </AccordionItem>
         </Accordion>
       </div>
+      <h3 style={{marginTop: 30}}>
+        Graph
+      </h3>
+      {props.equation.graph_formula ? (
+        <div style={{
+          marginTop: 10
+        }}>
+          <Graph data={props.graphData} formula={props.equation.formula} onCalculate={(vars) => {
+            props.onCalculate("graph", vars)
+          }} width={props.width} calculation_vars={props.equation.calculation_vars} />
+        </div>
+      ) : (
+      <p>
+        Graph is not available for this equation
+      </p>
+      )}
       <div style={{ marginTop: 30 }}>
         <h3 style={{ marginBottom: 10 }}>
           Resources

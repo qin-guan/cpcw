@@ -43,10 +43,6 @@ class CalculatorSerializer(serializers.ModelSerializer):
             for i in graph_formula.split(","):
                 if not len(i.split('=')) == 2:
                     raise serializers.ValidationError("Must be valid formula")
-                for c in i:
-                    if not c == "=":
-                        if not c.isalpha():
-                            raise serializers.ValidationError("Must be valid alpha char")
             
         if len(mapping) > 0 and mapping != "_":
             for i in mapping.split(","):

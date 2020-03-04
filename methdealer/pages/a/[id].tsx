@@ -29,6 +29,7 @@ interface AMathEquationPageState {
   simplifyAnswer: string;
   factorAnswer: string;
   expandAnswer: string;
+  graph: {x: number; y: number}[]
 }
 
 class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEquationPageState> {
@@ -40,7 +41,8 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
     answer: "",
     simplifyAnswer: "",
     factorAnswer: "",
-    expandAnswer: ""
+    expandAnswer: "",
+    graph: []
   }
 
   static getInitialProps({ query }) {
@@ -95,8 +97,11 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
               case "eval":
                 Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
                 break
+              case 'graph':
+                Calculator.graphData(this.props.equation.id, vars).then((v) => this.setState({ graph: v })).catch((e) => console.error(e))
+                break
             }
-          }} height={this.state.height} width={this.state.width} equation={this.props.equation} answer={this.state.answer} simplifyAnswer={this.state.simplifyAnswer} expandAnswer={this.state.expandAnswer}/>
+          }} height={this.state.height} width={this.state.width} equation={this.props.equation} answer={this.state.answer} simplifyAnswer={this.state.simplifyAnswer} expandAnswer={this.state.expandAnswer} graphData={this.state.graph}/>
         )}
       </Page>
     )
