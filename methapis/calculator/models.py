@@ -43,3 +43,4 @@ class Calculator(models.Model):
     simplify_formula = models.TextField()
     graph_formula = models.TextField()
     resource_links = models.TextField()
+    expand_formula = models.TextField()

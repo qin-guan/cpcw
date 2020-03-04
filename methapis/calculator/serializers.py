@@ -20,7 +20,8 @@ class CalculatorSerializer(serializers.ModelSerializer):
             'simplify_formula',
             'calculation_formula_var_mapping',
             'graph_formula',
-            'resource_links'
+            'resource_links',
+            'expand_formula'
          )
 
     def validate(self, data):

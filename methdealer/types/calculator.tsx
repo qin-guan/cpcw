@@ -23,6 +23,7 @@ export interface Equation {
     calculation_formula_var_mapping: string;
     graph_formula: string;
     resource_links: string;
+    expand_formula: string;
 }
 
 export interface Topics {

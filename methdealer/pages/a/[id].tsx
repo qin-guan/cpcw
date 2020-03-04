@@ -25,6 +25,10 @@ interface AMathEquationPageState {
   height: number;
   modal: boolean;
   alternativeModal: boolean;
+  answer: string;
+  simplifyAnswer: string;
+  factorAnswer: string;
+  expandAnswer: string;
 }
 
 class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEquationPageState> {
@@ -32,7 +36,11 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
     height: 0,
     width: 0,
     modal: false,
-    alternativeModal: false
+    alternativeModal: false,
+    answer: "",
+    simplifyAnswer: "",
+    factorAnswer: "",
+    expandAnswer: ""
   }
 
   static getInitialProps({ query }) {
@@ -76,7 +84,19 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
           }}>{this.props.equation.legend}</span>
         </Modal>
         {this.props.equation.difficulty === 'e' ? <Loading /> : (
-          <FormulaInfo height={this.state.height} width={this.state.width} equation={this.props.equation}/>
+          <FormulaInfo onCalculate={(type, vars) => {
+            switch (type) {
+              case "expand":
+                Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ expandAnswer: v })).catch((e) => console.error(e))
+                break
+              case "simplify":
+                Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ simplifyAnswer: v })).catch((e) => console.error(e))
+                break
+              case "eval":
+                Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
+                break
+            }
+          }} height={this.state.height} width={this.state.width} equation={this.props.equation} answer={this.state.answer} simplifyAnswer={this.state.simplifyAnswer} expandAnswer={this.state.expandAnswer}/>
         )}
       </Page>
     )

@@ -5,10 +5,11 @@ import { Loading, Modal, Accordion, AccordionItem } from 'carbon-components-reac
 import { Evaluate } from '../components/Evaluate'
 import { BlockAnswer } from '../components/BlockAnswer'
 import { Simplify } from '../components/Simplify';
+import { Expand } from '../components/Expand';
 import { LineChart, Line } from 'recharts';
 import { Calculator } from '../functions/calculator';
 
-export function FormulaInfo(props: {width: number, height: number; equation: Equation}) {
+export function FormulaInfo(props: {width: number, height: number; equation: Equation; answer: string; simplifyAnswer: string; expandAnswer: string; onCalculate(type: string, vars: { [key: string]: number} ): void}) {
     return (
         <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
               <EquationHeader toggleAlternativeModal={() => this._toggleAlternativeModal()} alternative={props.equation.alternative !== "_"} toggleModal={() => this._toggleModal()} legend={props.equation.legend !== "_"} formula={props.equation.formula} title={props.equation.title} topic={props.equation.topic} width={props.width} />
@@ -36,9 +37,9 @@ export function FormulaInfo(props: {width: number, height: number; equation: Equ
                   {props.equation.calculation_formula !== "_" ? (
                     <>
                       <Evaluate formula={props.equation.formula} onCalculate={(vars) => {
-                        Calculator.calculateValue(props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))
+                          props.onCalculate("eval", vars)
                       }} width={props.width} calculation_vars={props.equation.calculation_vars} />
-                      <BlockAnswer katex={this.state.answer} units={props.equation.calculated_units} />
+                      <BlockAnswer katex={props.answer} units={props.equation.calculated_units} />
                     </>
                   ) : <span>Evaluate is not available for this equation</span>}
                 </AccordionItem>
@@ -46,11 +47,21 @@ export function FormulaInfo(props: {width: number, height: number; equation: Equ
                   {props.equation.simplify_formula !== "_" ? (
                     <>
                       <Simplify formula={props.equation.formula} onCalculate={(vars) => {
-                        Calculator.calculateValue(props.equation.id, vars).then((v) => this.setState({ simplifyAnswer: v })).catch((e) => console.error(e))
+                        props.onCalculate("simplify", vars)
                       }} width={props.width} calculation_vars={props.equation.calculation_vars} />
-                      <BlockAnswer katex={this.state.simplifyAnswer} units={props.equation.calculated_units} />
+                      <BlockAnswer katex={props.simplifyAnswer} units={props.equation.calculated_units} />
                     </>
                   ) : <span>Simplify is not available for this equation</span>}
+                </AccordionItem>
+                <AccordionItem title={"Expand"}>
+                  {props.equation.expand_formula !== "_" ? (
+                    <>
+                      <Expand formula={props.equation.formula} onCalculate={(vars) => {
+                        props.onCalculate("expand", vars)
+                      }} width={props.width} calculation_vars={props.equation.calculation_vars} />
+                      <BlockAnswer katex={props.expandAnswer} units={props.equation.calculated_units} />
+                    </>
+                  ) : <span>Expand is not available for this equation</span>}
                 </AccordionItem>
               </Accordion>
             </div>
