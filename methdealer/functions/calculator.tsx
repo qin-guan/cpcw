@@ -56,7 +56,20 @@ function calculateValue(id: number, values: { [key: string]: number }): Promise<
 
 function simplifyValue(id: number, values: { [key: string]: number }): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-        axios.get(API_URL + "/api/calculators/" + id + "/ev", {
+        axios.get(API_URL + "/api/calculators/" + id + "/se", {
+            params: {
+                ...values
+            }
+        }).then(({ data }) => {
+            if (data.error) { return reject(new Error("methapi throwed error")) }
+            resolve(data.ans)
+        })
+    })
+}
+
+function expandValue(id: number, values: { [key: string]: number }): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+        axios.get(API_URL + "/api/calculators/" + id + "/ee", {
             params: {
                 ...values
             }
@@ -73,5 +86,6 @@ export const Calculator = {
     initialize: initialize,
     getEquation: getEquation,
     calculateValue: calculateValue,
-    simplifyValue: simplifyValue
+    simplifyValue: simplifyValue,
+    expandValue: expandValue
 }

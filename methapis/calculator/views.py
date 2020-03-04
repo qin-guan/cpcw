@@ -12,12 +12,46 @@ from sympy import *
 from math import pi
 from sympy.parsing.sympy_parser import parse_expr
 
+def insertList(a, v, i):
+    b = a[:]
+    b.insert(i, v)
+    return b
+
 def parseStringToNumber(s):
     return float(s.replace('\U00002013', '-'))
+
+def parseAdvParamToNumber(s):
+    s = list(s.replace('\U00002013', '-'))
+    for i, v in enumerate(s):
+        if s[i-1].isalpha() and s[i].isdigit():
+            insertList(s, "*", i)
+    print("sad", "".join(s))
+    return parse_expr("".join(s))
+
+def parseOutputKatex(s):
+    return s.replace("**", "^").replace("*", "\\times ")
 
 class CalculatorView(viewsets.ModelViewSet):
     serializer_class = CalculatorSerializer
     queryset = Calculator.objects.all()
+
+    @action(methods=["GET"], detail=True, name="Expand Equation", url_path="ee")
+    def expandEquation(self, request, pk=None):
+        res = {"error": False}
+        vals = {}
+        formula = self.get_object().expand_formula
+        if formula == "_":
+            res["error"] = True
+            return Response(res)
+        else:
+            arr_calculation_vars = self.get_object().calculation_vars.split(",")
+            dict_query_params = request.query_params
+            for p in dict_query_params.keys():
+                vals[p] = parseAdvParamToNumber(dict_query_params[p])
+            exp = parse_expr(formula).subs(vals)
+            ans = expand(exp)
+            res['ans'] = parseOutputKatex(str(ans))
+            return Response(res)
 
     @action(methods=["GET"], detail=True, name="Get Graph Data", url_path="gd")
     def graphData(self, request, pk=None):

@@ -84,13 +84,13 @@ class AMathEquationPage extends React.Component<AMathEquationPageProps, AMathEqu
           }}>{this.props.equation.legend}</span>
         </Modal>
         {this.props.equation.difficulty === 'e' ? <Loading /> : (
-          <FormulaInfo onCalculate={(type, vars) => {
+          <FormulaInfo toggleAlternativeModal={() => this._toggleAlternativeModal()} toggleModal={() => this._toggleModal()} onCalculate={(type, vars) => {
             switch (type) {
               case "expand":
-                Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ expandAnswer: v })).catch((e) => console.error(e))
+                Calculator.expandValue(this.props.equation.id, vars).then((v) => this.setState({ expandAnswer: v })).catch((e) => console.error(e))
                 break
               case "simplify":
-                Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ simplifyAnswer: v })).catch((e) => console.error(e))
+                Calculator.simplifyValue(this.props.equation.id, vars).then((v) => this.setState({ simplifyAnswer: v })).catch((e) => console.error(e))
                 break
               case "eval":
                 Calculator.calculateValue(this.props.equation.id, vars).then((v) => this.setState({ answer: v })).catch((e) => console.error(e))

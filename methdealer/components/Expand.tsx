@@ -41,7 +41,7 @@ export function Expand(props: { formula: string, calculation_vars: string; width
                     })}
                 </div>
                 <div style={{ marginTop: props.width < 850 ? 15 : 0 }}>
-                    <Button onClick={() => props.onCalculate(vars)}>Simplify</Button>
+                    <Button onClick={() => props.onCalculate(vars)}>Expand</Button>
                 </div>
             </div>
         </div>

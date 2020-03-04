@@ -32,7 +32,7 @@ class AMathPage extends React.Component<AMathPageProps, AMathPageState> {
     return (
       <Page currentlySelected={this.props.router.query.id as string} topics={this.props.topics} difficulty="a" health={this.props.health}>
         <div style={{ flex: 1, padding: 50 }}>
-          <SummaryTable rows={rows} tableTitle={"Additional Math"} onClick={id => Router.push("/e/" + id)}/>
+          <SummaryTable rows={rows} tableTitle={"Additional Math"} onClick={id => Router.push("/a/" + id)}/>
         </div>
       </Page>
     )
