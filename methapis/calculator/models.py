@@ -42,3 +42,4 @@ class Calculator(models.Model):
     calculation_formula_var_mapping = models.TextField()
     simplify_formula = models.TextField()
     graph_formula = models.TextField()
+    resource_links = models.TextField()

@@ -26,7 +26,7 @@ export function EquationHeader(props: { formula: string; title: string; topic: s
                         <div style={{ marginTop: isMobile ? 15 : 0, marginLeft: isMobile ? 0 : 15 }}>
                             <Button renderIcon={Legend20} kind="secondary" onClick={() => props.toggleModal()}>
                                 Legend
-                        </Button>
+                            </Button>
                         </div>
                     ) : null}
                 </div>

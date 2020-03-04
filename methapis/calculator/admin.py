@@ -18,7 +18,8 @@ class CalculatorAdmin(admin.ModelAdmin):
         'calculated_units',
         'simplify_formula',
         'calculation_formula_var_mapping',
-        'graph_formula'
+        'graph_formula',
+        'resource_links'
     ]
 
 admin.site.register(Calculator, CalculatorAdmin)
