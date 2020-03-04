@@ -69,7 +69,7 @@ export function FormulaInfo(props: { toggleModal(): void; toggleAlternativeModal
       <h3 style={{marginTop: 30}}>
         Graph
       </h3>
-      {props.equation.graph_formula ? (
+      {props.equation.graph_formula !== "_" ? (
         <div style={{
           marginTop: 10
         }}>

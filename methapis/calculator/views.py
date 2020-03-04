@@ -81,7 +81,7 @@ class CalculatorView(viewsets.ModelViewSet):
         parsed = parseAdvParamToNumber(eval_form)
         for i in dict_query_params.keys():
             vals[i] = parseStringToNumber(dict_query_params[i])
-        for i in numpy.arange(-100, 100, 0.5):
+        for i in numpy.arange(-100, 100, 2):
             vals["x"] = i
             exp = parsed.subs(vals)
             arr.append({"y": float(exp.evalf()), "x": float(i)})
