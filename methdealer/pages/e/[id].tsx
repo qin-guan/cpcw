@@ -124,6 +124,22 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                 </AccordionItem>
               </Accordion>
             </div>
+            <div style={{ marginTop: 30 }}>
+              <h3 style={{ marginBottom: 10 }}>
+                Resources
+              </h3>
+              {this.props.equation.resource_links.split("\\n").map((link) => {
+                <>
+                <img src={link} alt={link} style={{
+                  width: '100%',
+                  height: '100%',
+                }}/>
+                <p>
+                  {link}
+                  </p>
+                  </>
+              })}
+            </div>
           </div>
         )}
       </Page>

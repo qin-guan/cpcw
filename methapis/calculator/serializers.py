@@ -53,6 +53,6 @@ class CalculatorSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError("Must be valid char mapping")
                 for c in i:
                     if not c == "=":
-                        if not all(x.isalpha() or x.isspace() for x in c):
+                        if not all(x.isalnum() or x.isspace() for x in c):
                             raise serializers.ValidationError("Must be valid alpha char")
         return data

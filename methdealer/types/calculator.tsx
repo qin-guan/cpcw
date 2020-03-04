@@ -19,7 +19,10 @@ export interface Equation {
     calculation_vars: string;
     calculation_formula: string;
     calculated_units: string;
-    simplify_formula: string
+    simplify_formula: string;
+    calculation_formula_var_mapping: string;
+    graph_formula: string;
+    resource_links: string;
 }
 
 export interface Topics {
