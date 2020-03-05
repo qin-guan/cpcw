@@ -59,11 +59,6 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
               </HeaderNavigation>
               <HeaderGlobalBar>
                 <HeaderGlobalAction
-                  aria-label="Search"
-                  onClick={() => window.location.href = '/search'}>
-                  <Search20 />
-                </HeaderGlobalAction>
-                <HeaderGlobalAction
                   aria-label="App Switcher"
                   onClick={() => alert('app-switcher click')}>
                   <AppSwitcher20 />
