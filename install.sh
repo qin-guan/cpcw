@@ -8,3 +8,4 @@ nvm install node;
 nvm use node;
 cd methdealer;
 npm i;
+cd ..;
