@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GTTopics, GTEquation, Equation } from '../types/calculator';
 
-const API_URL = "https://methapis.qinguan.tk"
+const API_URL = "http://localhost:5601"
 
 function healthCheck(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
@@ -50,7 +50,7 @@ function calculateValue(id: number, values: { [key: string]: number }): Promise<
         }).then(({ data }) => {
             if (data.error) { return reject(new Error("methapi throwed error")) }
             resolve(data.ans)
-        })
+        }).catch((e) => reject(e))
     })
 }
 
@@ -63,7 +63,7 @@ function simplifyValue(id: number, values: { [key: string]: number }): Promise<s
         }).then(({ data }) => {
             if (data.error) { return reject(new Error("methapi throwed error")) }
             resolve(data.ans)
-        })
+        }).catch((e) => reject(e))
     })
 }
 
@@ -76,7 +76,7 @@ function expandValue(id: number, values: { [key: string]: number }): Promise<str
         }).then(({ data }) => {
             if (data.error) { return reject(new Error("methapi throwed error")) }
             resolve(data.ans)
-        })
+        }).catch((e) => reject(e))
     })
 }
 
@@ -89,7 +89,7 @@ function graphData(id: number, values: { [key: string]: number }): Promise<{x: n
         }).then(({ data }) => {
             if (data.error) { return reject(new Error("methapi throwed error")) }
             resolve(data.ans)
-        })
+        }).catch((e) => reject(e))
     })
 }
 
@@ -102,7 +102,7 @@ function diffValue(id: number, values: { [key: string]: number }): Promise<strin
         }).then(({ data }) => {
             if (data.error) { return reject(new Error("methapi throwed error")) }
             resolve(data.ans)
-        })
+        }).catch((e) => reject(e))
     })
 }
 
