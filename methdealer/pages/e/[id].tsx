@@ -29,7 +29,8 @@ interface EMathEquationPageState {
   simplifyAnswer: string;
   factorAnswer: string;
   expandAnswer: string;
-  graph: {x: number; y: number}[]
+  graph: {x: number; y: number}[];
+  diffAnswer: string
 }
 
 class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEquationPageState> {
@@ -42,7 +43,8 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
     simplifyAnswer: "",
     factorAnswer: "",
     expandAnswer: "",
-    graph: []
+    graph: [],
+    diffAnswer: ""
   }
 
   static getInitialProps({ query }) {
@@ -87,7 +89,7 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
           }}>{this.props.equation.legend}</span>
         </Modal>
         {this.props.equation.difficulty === 'a' ? <Loading /> : (
-          <FormulaInfo toggleAlternativeModal={() => this._toggleAlternativeModal()} toggleModal={() => this._toggleModal()} onCalculate={(type, vars) => {
+          <FormulaInfo diffAnswer={this.state.diffAnswer} toggleAlternativeModal={() => this._toggleAlternativeModal()} toggleModal={() => this._toggleModal()} onCalculate={(type, vars) => {
             switch (type) {
               case "expand":
                 Calculator.expandValue(this.props.equation.id, vars).then((v) => this.setState({ expandAnswer: v })).catch((e) => console.error(e))
@@ -100,6 +102,9 @@ class EMathEquationPage extends React.Component<EMathEquationPageProps, EMathEqu
                 break
               case 'graph':
                 Calculator.graphData(this.props.equation.id, vars).then((v) => this.setState({ graph: v })).catch((e) => console.error(e))
+                break
+              case 'diff':
+                Calculator.diffValue(this.props.equation.id, vars).then((v) => this.setState({ diffAnswer: v })).catch((e) => console.error(e))
                 break
             }
           }} height={this.state.height} width={this.state.width} equation={this.props.equation} answer={this.state.answer} simplifyAnswer={this.state.simplifyAnswer} expandAnswer={this.state.expandAnswer} graphData={this.state.graph}/>        )}

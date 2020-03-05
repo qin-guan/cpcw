@@ -20,7 +20,8 @@ class CalculatorAdmin(admin.ModelAdmin):
         'calculation_formula_var_mapping',
         'graph_formula',
         'resource_links',
-        'expand_formula'
+        'expand_formula',
+        'diff_formula'
     ]
 
 admin.site.register(Calculator, CalculatorAdmin)

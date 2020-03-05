@@ -28,10 +28,44 @@ def parseAdvParamToNumber(s):
             if v.isdigit():
                 if s[i+1].isalpha() or s[i+1] == "(":
                     parsed.append("*")
+    print("".join(parsed))
     return parse_expr("".join(parsed))
 
 def parseOutputKatex(s):
-    return s.replace("**", "^").replace("*", "\\times ")
+    s = list(s.replace("**", "^").replace("*", "\\times "))
+    print("".join(s))
+    newList = []
+    carrot = False
+    for i, v in enumerate(s):
+        if v == "(" and s[i-1] == "^":
+            carrot = True
+            newList.append("{")
+        elif v == ")" and carrot:
+            carrot = False
+            newList.append("}")
+        elif s[i-1] == "^":
+            carrot = True
+            newList.append("{")
+            newList.append(v)
+            if not (len(s)-1 == i):
+                if s[i+1] == '\\':
+                    print(s[i-1], v, s[i+1], newList)
+                    newList.append("}")
+                    carrot = False
+            if len(s)-1 == i:
+                newList.append("}")
+        elif carrot and (len(s)-1 == i):
+            newList.append(v)
+            newList.append("}")
+            carrot = False
+        elif carrot and v.isalpha() and s[i+1].isalpha() == False:
+            newList.append("}")
+            newList.append(v)
+            carrot = False
+        else:
+            newList.append(v)
+    print("".join(newList))
+    return "".join(newList)
 
 class CalculatorView(viewsets.ModelViewSet):
     serializer_class = CalculatorSerializer
@@ -125,6 +159,31 @@ class CalculatorView(viewsets.ModelViewSet):
         exp = parse_expr(self.get_object().calculation_formula)
         ans = exp.evalf(subs=vals)
         res['ans'] = str(ans)
+        return Response(res)
+        
+    @action(methods=['GET'], detail=True, name="Diff value for formula", url_path="dv")
+    def diffValue(self, request, pk=None):
+        res = {"error": False}
+        vals = {"pi": pi}
+        arr_calculation_vars = self.get_object().calculation_vars.split(",")
+        mappings = self.get_object().calculation_formula_var_mapping.split(",")
+        dict_query_params = request.query_params
+        for variable in arr_calculation_vars:
+            if variable not in dict_query_params.keys():
+                res = {"error": True}
+        if res["error"] == True:
+            return Response(res)
+        for key in dict_query_params.keys():
+            hasMap = False
+            for mapping in mappings:
+                if mapping.split("=")[0] == key:
+                    vals[mapping.split("=")[-1]] = parseStringToNumber(dict_query_params[key])
+                    hasMap = True
+            if hasMap == False:
+                vals[key] = parseAdvParamToNumber(dict_query_params[key])
+        exp = parse_expr(self.get_object().diff_formula).subs(vals)
+        ans = diff(exp)
+        res['ans'] = parseOutputKatex(str(ans))
         return Response(res)
 
     @action(detail=False, methods=['GET'], name='Get topics for difficulties')

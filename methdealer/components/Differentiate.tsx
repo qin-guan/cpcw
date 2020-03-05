@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NumberInput, Button } from 'carbon-components-react'
+import React, {useState} from 'react'
+import { TextInput, Button } from 'carbon-components-react'
 import { InlineMath, BlockMath } from 'react-katex';
 
 export function Differentiate(props: { formula: string, calculation_vars: string; width: number; onCalculate(vars: { [key: string]: number }): void }) {
@@ -32,8 +32,8 @@ export function Differentiate(props: { formula: string, calculation_vars: string
                                 <div style={{ width: 40 }}>
                                     <span>{i}:</span>
                                 </div>
-                                <NumberInput value={vars[i]} defaultValue={1} step={0.5} invalidText="Please enter a valid number" isMobile={props.width < 850} onChange={(text) => {
-                                    vars[i] = text.imaginaryTarget.valueAsNumber
+                                <TextInput defaultValue={1} invalidText="Please enter a valid number" isMobile={props.width < 850} onChange={(e) => {
+                                    vars[i] = e.target.value
                                     changeVars(vars)
                                 }} />
                             </div>
@@ -41,7 +41,7 @@ export function Differentiate(props: { formula: string, calculation_vars: string
                     })}
                 </div>
                 <div style={{ marginTop: props.width < 850 ? 15 : 0 }}>
-                    <Button onClick={() => props.onCalculate(vars)}>Simplify</Button>
+                    <Button onClick={() => props.onCalculate(vars)}>Differentiate</Button>
                 </div>
             </div>
         </div>

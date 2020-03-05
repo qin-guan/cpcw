@@ -24,6 +24,7 @@ export interface Equation {
     graph_formula: string;
     resource_links: string;
     expand_formula: string;
+    diff_formula: string;
 }
 
 export interface Topics {

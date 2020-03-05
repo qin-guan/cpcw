@@ -5,12 +5,13 @@ import { Loading, Modal, Accordion, AccordionItem } from 'carbon-components-reac
 import { Evaluate } from '../components/Evaluate'
 import { BlockAnswer } from '../components/BlockAnswer'
 import { Simplify } from '../components/Simplify';
+import { Differentiate } from '../components/Differentiate';
 import { Expand } from '../components/Expand';
 import { LineChart, Line } from 'recharts';
 import { Calculator } from '../functions/calculator';
 import {Graph} from '../components/Graph'
 
-export function FormulaInfo(props: { toggleModal(): void; toggleAlternativeModal(): void; width: number, height: number; equation: Equation; answer: string; simplifyAnswer: string; expandAnswer: string; onCalculate(type: string, vars: { [key: string]: number }): void, graphData: {x: number, y: number}[]}) {
+export function FormulaInfo(props: { toggleModal(): void; toggleAlternativeModal(): void; width: number, height: number; equation: Equation; answer: string; simplifyAnswer: string; expandAnswer: string; onCalculate(type: string, vars: { [key: string]: number }): void, graphData: {x: number, y: number}[]; diffAnswer: string}) {
   return (
     <div style={{ display: 'flex', padding: 48, flexDirection: 'column', flex: 1 }}>
       <EquationHeader toggleAlternativeModal={() => props.toggleAlternativeModal()} alternative={props.equation.alternative !== "_"} toggleModal={() => props.toggleModal()} legend={props.equation.legend !== "_"} formula={props.equation.formula} title={props.equation.title} topic={props.equation.topic} width={props.width} />
@@ -63,6 +64,16 @@ export function FormulaInfo(props: { toggleModal(): void; toggleAlternativeModal
                 <BlockAnswer katex={props.expandAnswer} units={props.equation.calculated_units} />
               </>
             ) : <span>Expand is not available for this equation</span>}
+          </AccordionItem>
+          <AccordionItem title={"Differentiate"}>
+            {props.equation.diff_formula !== "_" ? (
+              <>
+                <Differentiate formula={props.equation.formula} onCalculate={(vars) => {
+                  props.onCalculate("diff", vars)
+                }} width={props.width} calculation_vars={props.equation.calculation_vars} />
+                <BlockAnswer katex={props.diffAnswer} units={props.equation.calculated_units} />
+              </>
+            ) : <span>Differentiation is not available for this equation</span>}
           </AccordionItem>
         </Accordion>
       </div>

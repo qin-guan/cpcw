@@ -21,7 +21,8 @@ class CalculatorSerializer(serializers.ModelSerializer):
             'calculation_formula_var_mapping',
             'graph_formula',
             'resource_links',
-            'expand_formula'
+            'expand_formula',
+            'diff_formula'
          )
 
     def validate(self, data):

@@ -93,6 +93,19 @@ function graphData(id: number, values: { [key: string]: number }): Promise<{x: n
     })
 }
 
+function diffValue(id: number, values: { [key: string]: number }): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+        axios.get(API_URL + "/api/calculators/" + id + "/dv", {
+            params: {
+                ...values
+            }
+        }).then(({ data }) => {
+            if (data.error) { return reject(new Error("methapi throwed error")) }
+            resolve(data.ans)
+        })
+    })
+}
+
 export const Calculator = {
     healthCheck: healthCheck,
     getTopics: getTopics,
@@ -101,5 +114,6 @@ export const Calculator = {
     calculateValue: calculateValue,
     simplifyValue: simplifyValue,
     expandValue: expandValue,
-    graphData: graphData
+    graphData: graphData,
+    diffValue: diffValue
 }

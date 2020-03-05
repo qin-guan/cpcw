@@ -44,3 +44,4 @@ class Calculator(models.Model):
     graph_formula = models.TextField()
     resource_links = models.TextField()
     expand_formula = models.TextField()
+    diff_formula = models.TextField()
