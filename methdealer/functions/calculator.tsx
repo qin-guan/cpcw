@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GTTopics, GTEquation, Equation } from '../types/calculator';
 
-const API_URL = "http://localhost:5601"
+const API_URL = "https://methapis.qinguan.tk"
 
 function healthCheck(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
