@@ -3,6 +3,7 @@ pip3 install djangorestframework;
 pip3 install django-cors-headers;
 pip3 install django-health-check;
 if [ ! -d ~/.nvm ]; then
+  sudo xcodebuild -license
   curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
   source ~/.nvm/nvm.sh
   source ~/.profile
@@ -12,7 +13,7 @@ if [ ! -d ~/.nvm ]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
   nvm install node
   nvm use node
-  cd methdealer;
-  npm i;
-  cd ..;
 fi
+cd methdealer;
+npm i;
+cd ..;
