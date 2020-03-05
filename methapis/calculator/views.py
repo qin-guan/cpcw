@@ -90,7 +90,7 @@ class CalculatorView(viewsets.ModelViewSet):
                     vals[p] = parseAdvParamToNumber(dict_query_params[p])
                 exp = parse_expr(formula).subs(vals)
                 ans = expand(exp)
-                res['ans'] = parseOutputKatex(str(ans))
+                res['ans'] = latex(str(ans))
                 return Response(res)
             else :
                 return Response(res)
