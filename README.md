@@ -22,4 +22,5 @@ $ sh ./run.sh
 1. Run install script `sh ./install.sh`
 2. Compile files `cd methdealer; npm run build`
 3. Start Python on port 5601 `cd ../methapis; python3 manage.py runserver 0:5601`
-4. Start UI `cd ../methdealer; npm start`
+4. Create new terminal
+5. Start UI `cd ../methupdealer; npm start`
