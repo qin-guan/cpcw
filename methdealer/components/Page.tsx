@@ -58,11 +58,6 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
                 <HeaderMenuItem href="/e">E-Math</HeaderMenuItem>
               </HeaderNavigation>
               <HeaderGlobalBar>
-                <HeaderGlobalAction
-                  aria-label="App Switcher"
-                  onClick={() => alert('app-switcher click')}>
-                  <AppSwitcher20 />
-                </HeaderGlobalAction>
               </HeaderGlobalBar>
               <SideNav
                 aria-label="Side navigation"
