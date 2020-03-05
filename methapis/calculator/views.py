@@ -31,40 +31,40 @@ def parseAdvParamToNumber(s):
     print("".join(parsed))
     return parse_expr("".join(parsed))
 
-# def parseOutputKatex(s):
-#     s = list(s.replace("**", "^").replace("*", "\\times "))
-#     print("".join(s))
-#     newList = []
-#     carrot = False
-#     for i, v in enumerate(s):
-#         if v == "(" and s[i-1] == "^":
-#             carrot = True
-#             newList.append("{")
-#         elif v == ")" and carrot:
-#             carrot = False
-#             newList.append("}")
-#         elif s[i-1] == "^":
-#             carrot = True
-#             newList.append("{")
-#             newList.append(v)
-#             if not (len(s)-1 == i):
-#                 if s[i+1] == '\\' or s[i+1] == "/":
-#                     print(s[i-1], v, s[i+1], newList)
-#                     newList.append("}")
-#                     carrot = False
-#             if len(s)-1 == i:
-#                 newList.append("}")
-#         elif carrot and (len(s)-1 == i):
-#             newList.append(v)
-#             newList.append("}")
-#             carrot = False
-#         elif carrot and v.isalpha() and s[i+1].isalpha() == False:
-#             newList.append("}")
-#             newList.append(v)
-#             carrot = False
-#         else:
-#             newList.append(v)
-#     print("".join(newList))
+def parseOutputKatex(s):
+    s = list(s.replace("**", "^").replace("*", "\\times "))
+    print("".join(s))
+    newList = []
+    carrot = False
+    for i, v in enumerate(s):
+        if v == "(" and s[i-1] == "^":
+            carrot = True
+            newList.append("{")
+        elif v == ")" and carrot:
+            carrot = False
+            newList.append("}")
+        elif s[i-1] == "^":
+            carrot = True
+            newList.append("{")
+            newList.append(v)
+            if not (len(s)-1 == i):
+                if s[i+1] == '\\' or s[i+1] == "/":
+                    print(s[i-1], v, s[i+1], newList)
+                    newList.append("}")
+                    carrot = False
+            if len(s)-1 == i:
+                newList.append("}")
+        elif carrot and (len(s)-1 == i):
+            newList.append(v)
+            newList.append("}")
+            carrot = False
+        elif carrot and v.isalpha() and s[i+1].isalpha() == False:
+            newList.append("}")
+            newList.append(v)
+            carrot = False
+        else:
+            newList.append(v)
+    print("".join(newList))
     return "".join(newList)
 
 class CalculatorView(viewsets.ModelViewSet):
