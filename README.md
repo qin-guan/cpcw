@@ -28,3 +28,4 @@ $ sh ./run.sh
 3. Start Python on port 5601 `cd ../methapis; python3 manage.py runserver 0:5601`
 4. Create new terminal session
 5. Start UI `cd ../methupdealer; npm start`
+6. Access UI on `http://localhost:3000`
