@@ -94,9 +94,11 @@ export function Page(props: { children?: React.ReactNode, topics?: GTTopics, dif
         display: 'flex',
         flex: 1,
         marginTop: 48,
-        overflow: 'scroll'
+        overflow: 'scroll',
+        backgroundColor: 'white',
+        height: 1500
       }}>
-        {props.children}
+          {props.children}
       </div>
     </div>
   )
