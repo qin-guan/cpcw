@@ -1,0 +1,1 @@
+cd methdealer; npm run start;
