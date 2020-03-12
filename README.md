@@ -19,7 +19,7 @@
 $ cd /path/to/project
 $ sh ./install.sh
 $ sh ./build.sh
-$ sh ./run.sh
+$ python3 main.py
 ```
 
 #### Manual
