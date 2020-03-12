@@ -1,1 +1,0 @@
-{ sh runPython.sh && sh runUI.sh; } &

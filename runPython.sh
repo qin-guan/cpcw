@@ -1,1 +1,1 @@
-cd methapis && python3 manage.py runserver 0:5061;
+cd methapis; python3 manage.py runserver 0:5601;

@@ -1,1 +1,1 @@
-cd methdealer; npm run start;
+cd methdealer; npm start;
